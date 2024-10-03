@@ -20,5 +20,5 @@ build_readme()
 # usethis::use_pkgdown()
 # setwd('../')
 # pkgdown::build_site()
-# publish online:
+# publish online: (commit changes first)
 # pkgdown::deploy_to_branch()
