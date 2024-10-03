@@ -1,0 +1,24 @@
+# R project files and settings
+.Rproj.user
+.Rhistory
+.RData
+.Ruserdata
+.csv
+.rda
+
+# Compressed data files
+*.gz
+
+# A4LEARN package structure
+man/*.Rd
+data/
+NAMESPACE
+R/
+.Rbuildignore
+
+# Source Dataset
+data-raw/*.csv
+
+# Rendering outputs
+*.html
+docs

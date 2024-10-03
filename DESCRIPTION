@@ -1,0 +1,34 @@
+Package: HABSHD
+Type: Package
+Title: HABSHD Study Package
+Description: HABSHD is a data package containing full HABS-HD dataset.
+Version: 0.1.5
+Authors@R: person("ATRI Biostatistics", email = "biostat_request@atrihub.io",
+  role = c("aut", "cre"))
+URL: 
+    https://apps.unthsc.edu/itr/research, 
+    https://github.com/mcdonohue/HABSHD
+License: https://apps.unthsc.edu/itr/assets/documents/HABS_HD%20DUA.final.pdf
+Encoding: UTF-8
+LazyData: true
+LazyDataCompression:bzip2
+RoxygenNote: 7.3.2
+Collate:
+    'data.R'
+    'HABSHD-package.R'
+Imports:
+    rmarkdown
+Suggests: 
+    knitr,
+    tidyverse,
+    arsenal,
+    kableExtra,
+    nlme,
+    emmeans,
+    splines,
+    clubSandwich,
+    Hmisc,
+    dplyr
+VignetteBuilder: knitr
+Depends: 
+    R (>= 3.5.0)

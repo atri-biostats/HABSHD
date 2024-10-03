@@ -1,0 +1,31 @@
+---
+title: "HABS-HD Baseline Characteristics"
+author: "ATRI Biostatistics"
+output:   
+  rmarkdown::html_vignette:
+    toc: true
+bibliography: references.bib  
+urlcolor: blue
+vignette: >
+  %\VignetteIndexEntry{HABS-HD Baseline Characteristics}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+  
+```{r, include = FALSE}
+knitr::opts_chunk$set(echo = TRUE,
+  collapse = TRUE,
+  comment = "#>",
+  fig.width = 8, 
+  fig.height = 8 / 1.6, 
+  out.width = "100%"
+)
+
+options(digits = 2, width = 150)
+```
+
+The **The Health & Aging Brain Study: Health Disparities (HABS-HD)** study [@OBryant2021health] is a single site project that is conducted at the University of North Texas Health Science Center. The HABS-HD project is funded by grants from the National Institute on Aging (NIA): R01AG054073, R01AG058533. The HABS-HD study has now enrolled over 1,000 Mexican Americans and 1,000 non-Hispanic whites from the community. Enrollment for an additional 1,000 African Americans began February 2021.
+
+The code below demonstrates how to use data in the `HABSHD` package and @R to derive some basic summaries [TBD]
+
+# References
