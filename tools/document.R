@@ -104,7 +104,7 @@ for(ff in csv_files){
 doc_files <- list.files(file.path('..', 'data-raw'), 
   pattern = "\\.pdf$", full.names = TRUE, recursive = TRUE)
 for (file_name in doc_files) {
-  doc_name <- gsub("\\.pdf$", "", basename(file_name))
+  doc_name <- gsub(' ', '_', gsub("\\.pdf$", "", basename(file_name)))
   file.copy(file_name, file.path('..', 'vignettes', 
     paste0(doc_name,'_original.pdf')))
   cat("\\documentclass{article}",
