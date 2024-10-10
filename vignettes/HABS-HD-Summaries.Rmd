@@ -1,5 +1,5 @@
 ---
-title: "HABS-HD Baseline Characteristics"
+title: "HABS-HD Summaries"
 author: "ATRI Biostatistics"
 output:   
   rmarkdown::html_vignette:
@@ -7,12 +7,17 @@ output:
 bibliography: references.bib  
 urlcolor: blue
 vignette: >
-  %\VignetteIndexEntry{HABS-HD Baseline Characteristics}
+  %\VignetteIndexEntry{HABS-HD Summaries}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
   
 ```{r, include = FALSE}
+library(HABSHD)
+library(arsenal)
+library(ggplot2)
+library(tidyverse)
+
 knitr::opts_chunk$set(echo = TRUE,
   collapse = TRUE,
   comment = "#>",
@@ -22,10 +27,20 @@ knitr::opts_chunk$set(echo = TRUE,
 )
 
 options(digits = 2, width = 150)
+
+theme_set(theme_minimal())
+
+scale_colour_discrete <-
+    function(...) ggsci::scale_color_lancet()
+scale_fill_discrete <-
+    function(...) ggsci::scale_fill_lancet()
 ```
 
 The **The Health & Aging Brain Study: Health Disparities (HABS-HD)** study [@OBryant2021health] is a single site project that is conducted at the University of North Texas Health Science Center. The HABS-HD project is funded by grants from the National Institute on Aging (NIA): R01AG054073, R01AG058533. The HABS-HD study has now enrolled over 1,000 Mexican Americans and 1,000 non-Hispanic whites from the community. Enrollment for an additional 1,000 African Americans began February 2021.
 
-The code below demonstrates how to use data in the `HABSHD` package and @R to derive some basic summaries [TBD]
+The code below demonstrates how to use data in the `HABSHD` package and @R to derive some basic summaries.
+
+```{r, child='../man/rmd/HABS-HD-Summaries-child.Rmd'}
+```
 
 # References

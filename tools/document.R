@@ -17,8 +17,8 @@ cat("#' HABSHD data dictionary",
   "#' These data files contain meta data for other data files in this package.",
   "#'",
   "#' @docType data",
-  "#' @name HD_Data_Dictionary_Release_5",
-  "#' @usage data(HD_Data_Dictionary_Release_5)",
+  "#' @name HD_Data_Dictionary",
+  "#' @usage data(HD_Data_Dictionary)",
   "#' @format A data frame",
   "#' @keywords datasets dictionary datadictionary",
   "#' @examples",
@@ -54,6 +54,21 @@ cat("#' HABSHD data dictionary",
   "#' browseVignettes('HABSHD')",
   "#' }",
   "NULL\n\n",
+  "#' HABSHD data labels",
+  "#'",
+  "#' Labels for use in figures and tables.",
+  "#'",
+  "#' @docType data",
+  "#' @keywords datasets",
+  "#' @name HD_labels",
+  "#' @usage data(HD_labels)",
+  "#' @format A character vector. The names correspond to variable names (e.g.",
+  "#'  ID_Hispanic) and values correspond to labels (e.g. Hispanic).",
+  "#' @examples",
+  "#' \\dontrun{",
+  "#' browseVignettes('HABSHD')",
+  "#' }",
+  "NULL\n\n",
   file = file.path("..", "R", "data.R"), sep = "\n")
 
 # function for escaping braces ----
@@ -62,23 +77,26 @@ escape <- function(x){
   gsub('\r', ' ', gsub('\n', ' ', gsub("}", "\\}", y, fixed = TRUE)))
 }
 
-# HD_Data_Dictionary_Release_5 %>%
+# HD_Data_Dictionary %>%
 #   filter(`Main Variable` == '01_TAU_PI2620_Scanner') %>%
 #   pull(Label) %>% escape()
 
 # get csv data info ----
 
-csv_files <- list.files("../data-raw/", pattern = "\\.csv$", full.names = TRUE, recursive = TRUE)
-
+rda_files <- list.files("../data", pattern = "\\.rda$", full.names = TRUE, 
+  recursive = TRUE)
+rda_files <- setdiff(rda_files, paste0("../data/",
+  c("data_release_date.rda", "data_release_version.rda", 
+    "HD_Data_Dictionary.rda", "HD_labels.rda")))
 # Document csv sourced dataset(s) ----
-for(ff in csv_files){
-  tt <- gsub(' ', '_', gsub("\\.csv$", "", basename(ff)))
+for(ff in rda_files){
+  tt <- gsub(' ', '_', gsub("\\.rda$", "", basename(ff)))
   message('Documenting ', tt)
   assign("dd", get(tt))
-  dic.sub <- subset(HD_Data_Dictionary_Release_5, `Main Variable` %in% 
+  dic.sub <- subset(HD_Data_Dictionary, `Main Variable` %in% 
       colnames(dd))
   cat(paste0("#' ", tt),
-    "#' @description HABS-HD raw dataset.",
+    "#' @description HABS-HD dataset.",
     "#' @details",
     "#' \\itemize{",
     paste("#'   \\item", paste0(

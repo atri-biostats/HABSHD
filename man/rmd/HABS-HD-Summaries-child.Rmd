@@ -1,0 +1,40 @@
+
+# Baseline characteristics tables
+
+```{r results = 'asis', include = TRUE}
+tableby(CDX_Cog ~ . , data = HD_subjinfo %>% 
+    select(-Med_ID, -Visit_ID, -APOE4_rs429358, -APOE4_rs7412)) %>%
+  summary(labelTranslations = HD_labels, digits = 1)
+
+tableby(Ethnicity ~ . , data = HD_subjinfo %>% 
+    select(-Med_ID, -Visit_ID, -APOE4_rs429358, -APOE4_rs7412)) %>%
+  summary(labelTranslations = HD_labels, digits = 1)
+```
+
+# Summary plots
+
+```{r}
+HD_longitudinal %>%
+  mutate(Hippocampus = `01_L_hippocampus` + `01_R_hippocampus`) %>%
+  select(Med_ID, Age, Ethnicity, `01_AB_FBB_Global_SUVR`, 
+    `01_TAU_PI2620_Medial_Temporal_SUVR`, Hippocampus, 
+    `02_WMH_Volume_Log`, HPACC) %>%
+  pivot_longer(`01_AB_FBB_Global_SUVR`:HPACC) %>%
+ggplot(aes(x=Age, y=value, color=Ethnicity)) +
+  geom_point(alpha=0.1) +
+  geom_line(aes(group = Med_ID), alpha=0.1) +
+  facet_wrap(vars(name), scales = 'free_y')
+```
+
+```{r}
+HD_longitudinal %>%
+  mutate(Hippocampus = `01_L_hippocampus` + `01_R_hippocampus`) %>%
+  select(Med_ID, Age, Ethnicity, `01_AB_FBB_Global_SUVR`, 
+    `01_TAU_PI2620_Medial_Temporal_SUVR`, Hippocampus, 
+    `02_WMH_Volume_Log`, HPACC) %>%
+  pivot_longer(`01_AB_FBB_Global_SUVR`:HPACC) %>%
+ggplot(aes(x=Age, y=value, color=Ethnicity)) +
+  geom_smooth(method = 'loess') +
+  geom_rug(alpha = 0.1) +
+  facet_wrap(vars(name), scales = 'free_y')
+```

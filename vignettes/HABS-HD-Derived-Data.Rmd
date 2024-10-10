@@ -1,0 +1,146 @@
+---
+title: "HABS-HD-Derived-Data"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{HABS-HD Derived Data}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+library(tidyverse)
+
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup, purl=FALSE}
+library(HABSHD)
+```
+
+# Derive HD_longitudinal
+
+HD_longitudinal is a derived dataset which stacks the data from all visits.
+
+Some variables have different types across visits. We convert this to character so that the datasets can be defined.
+
+```{r}
+inconsistent_cols <- 
+  c('Interview_Start', 'Interview_End', 'OM_Time1', 'IN_Seizures_MostRecent',
+    'IN_Seizures_First', 'OM_Time2', 'Cancer_Breast_7', 'Cancer_Colon_7',
+    'Cancer_Siblings', 'Cancer_Siblings_History', 'Medication_20_Frequency',
+    'Medication_21_Frequency', 'Medication_22_Frequency',
+    'Medication_23_Frequency', 'Medication_24_Frequency',
+    'Medication_25_Frequency', 'BW_Monocytes', '01_MRI_Date_Days_Differential')
+
+HD_longitudinal <- lapply(list(HD_Visit_1, HD_Visit_2, HD_Visit_3), 
+  function(x){
+    x %>% mutate(across(all_of(inconsistent_cols), as.character))
+  }) %>%
+  bind_rows()
+```
+
+# Derive HD_subjinfo
+
+HD_subjinfo contains key subject information ("HD_subjinfo") on baseline characteristics. Missing data are carried back where possible.
+
+```{r}
+HD_subjinfo <- HD_longitudinal %>% 
+  arrange(Med_ID, Visit_ID) %>%
+  group_by(Med_ID) %>%
+  mutate(Mean_ICV_HD = mean(`01_ICV_HD`, na.rm = TRUE)) %>%
+  select(Med_ID, Visit_ID, CDX_Cog, Age, Ethnicity, 
+    APOE4_rs429358, APOE4_rs7412, APOE4_SNP,
+    APOE4_Positivity, ID_Hispanic, ID_Race_White, ID_Race_Black,
+    ID_Race_IndianAlaska, ID_Race_Specify_AmerInd_Tribe, ID_Race_Asian,
+    ID_Race_Specify_Asian_Race, ID_Race_Japanese, ID_Race_Korean,
+    ID_Race_Vietnamese, ID_Race_NativeHawaiian, ID_Race_GuamChamorro,
+    ID_Race_Samoan, ID_Race_OtherPacific, ID_Race_Specify_OtherPacific_Race,
+    ID_Race_Other, ID_Race_Specify, ID_Gender, Interview_Language,
+    ID_Language_Primary, ADI_StateRank,
+    `01_AB_FBB_AB_pos`, `01_TAU_PI2620_Medial_Temporal_SUVR`, 
+    `01_L_hippocampus`, `01_R_hippocampus`, `01_ICV_HD`, `Mean_ICV_HD`,
+    `02_WMH_Volume_Raw`, `02_WMH_Volume_Log`,
+    MMSE_Total, Digit_Symbol_Substitution, SEVLT_DR_Total, 
+    LM2_AB_Total, Animal_Total) %>%
+  tidyr::fill(names(.), .direction='up') %>%
+  filter(Visit_ID == 1) %>%
+  mutate(ADI_StateRank = as.numeric(ADI_StateRank)) %>%
+  ungroup()
+```
+
+# Derive HPACC 
+
+## Summarize PACC components at baseline among cognitively normal
+
+```{r}
+pacc_summaries <-
+  HD_subjinfo %>% filter(CDX_Cog=='Cognitively Unimpaired') %>% 
+  select(MMSE_Total, Digit_Symbol_Substitution, SEVLT_DR_Total, LM2_AB_Total, Animal_Total) %>%
+  pivot_longer(MMSE_Total:Animal_Total, names_to = 'Component', values_to = 'y') %>%
+  filter(!is.na(y)) %>%
+  group_by(Component) %>% 
+  summarise(
+    N=length(y),
+    Min=min(y),
+    Q1=quantile(y,probs=0.25)[[1]],
+    Median = median(y),
+    Mean = mean(y),
+    SD = sd(y),
+    Q3 = quantile(y,probs=0.75)[[1]],
+    Max = max(y)
+  )
+
+knitr::kable(pacc_summaries, caption = 'HPACC component summaries among cognitively unimpaired at baseline.', digits = 2)
+```
+
+## Generate HPACC Z scores for HD_subjinfo and HD_longitudinal
+
+```{r}
+for(cc in pacc_summaries$Component){
+  x <- filter(pacc_summaries, Component == cc)
+  HD_subjinfo[,paste0(cc, '_Z')] <- (HD_subjinfo %>% pull(cc) - x$Mean)/x$SD
+  HD_longitudinal[,paste0(cc, '_Z')] <- 
+    (HD_longitudinal %>% pull(cc) - x$Mean)/x$SD
+}
+```
+
+## Sum HPACC Z scores to form HPACC in HD_subjinfo and HD_longitudinal
+
+```{r}
+HD_subjinfo$HPACC <- apply(HD_subjinfo[, paste0(pacc_summaries$Component, '_Z')], 1, sum)
+HD_subjinfo$HPACC_NA <- apply(is.na(HD_subjinfo[, paste0(pacc_summaries$Component, '_Z')]), 1, sum)
+HD_subjinfo$HPACC_NAsum <- apply(HD_subjinfo[, paste0(pacc_summaries$Component, '_Z')], 1, sum, na.rm=TRUE)
+HD_subjinfo <- HD_subjinfo %>% mutate(
+  HPACC_Prorated = case_when(
+    HPACC_NA == 0 ~ HPACC,
+    HPACC_NA == 1 ~ HPACC_NAsum * 5 / 4,
+    HPACC_NA == 2 ~ HPACC_NAsum * 5 / 3
+  ))
+HD_subjinfo <- HD_subjinfo %>% mutate(-HPACC_NAsum)
+
+HD_longitudinal$HPACC <- apply(HD_longitudinal[, paste0(pacc_summaries$Component, '_Z')], 1, sum)
+HD_longitudinal$HPACC_NA <- apply(is.na(HD_longitudinal[, paste0(pacc_summaries$Component, '_Z')]), 1, sum)
+HD_longitudinal$HPACC_NAsum <- apply(HD_longitudinal[, paste0(pacc_summaries$Component, '_Z')], 1, sum, na.rm=TRUE)
+HD_longitudinal <- HD_longitudinal %>% mutate(
+  HPACC_Prorated = case_when(
+    HPACC_NA == 0 ~ HPACC,
+    HPACC_NA == 1 ~ HPACC_NAsum * 5 / 4,
+    HPACC_NA == 2 ~ HPACC_NAsum * 5 / 3
+  ))
+HD_longitudinal <- HD_longitudinal %>% select(-HPACC_NAsum)
+```
+
+# Create variable labels
+
+```{r}
+HD_labels <- colnames(HD_subjinfo)
+names(HD_labels) <- HD_labels
+HD_labels <- HD_labels %>%
+  gsub(pattern = 'ID_', replacement = '') %>%
+  gsub(pattern = '01_', replacement = '') %>%
+  gsub(pattern = '02_', replacement = '') %>%
+  gsub(pattern = '_', replacement = ' ')
+```
