@@ -427,7 +427,14 @@ ggplot(aes(x=Age, y=value, color=Ethnicity)) +
 #> Warning: Removed 4110 rows containing missing values or values outside the scale range (`geom_line()`).
 ```
 
-<img src="man/figures/README-unnamed-chunk-6-1.png" width="100%" />
+<div class="figure">
+
+<img src="man/figures/README-habs-spaghetti-1.png" alt="Spaghetti of selected outcomes by age and ethnicity." width="100%" />
+<p class="caption">
+Spaghetti of selected outcomes by age and ethnicity.
+</p>
+
+</div>
 
 ``` r
 HD_longitudinal %>%
@@ -444,7 +451,15 @@ ggplot(aes(x=Age, y=value, color=Ethnicity)) +
 #> Warning: Removed 6513 rows containing non-finite outside the scale range (`stat_smooth()`).
 ```
 
-<img src="man/figures/README-unnamed-chunk-7-1.png" width="100%" />
+<div class="figure">
+
+<img src="man/figures/README-habs-loess-1.png" alt="Locally weighted scatterplot smooths (LOWESS) of selected outcomes by age and ethnicity." width="100%" />
+<p class="caption">
+Locally weighted scatterplot smooths (LOWESS) of selected outcomes by
+age and ethnicity.
+</p>
+
+</div>
 
 ## References
 

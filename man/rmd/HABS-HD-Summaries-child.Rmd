@@ -13,7 +13,7 @@ tableby(Ethnicity ~ . , data = HD_subjinfo %>%
 
 # Summary plots
 
-```{r}
+```{r habs-spaghetti, fig.cap='Spaghetti of selected outcomes by age and ethnicity.'}
 HD_longitudinal %>%
   mutate(Hippocampus = `01_L_hippocampus` + `01_R_hippocampus`) %>%
   select(Med_ID, Age, Ethnicity, `01_AB_FBB_Global_SUVR`, 
@@ -26,7 +26,7 @@ ggplot(aes(x=Age, y=value, color=Ethnicity)) +
   facet_wrap(vars(name), scales = 'free_y')
 ```
 
-```{r}
+```{r habs-loess, fig.cap='Locally weighted scatterplot smooths (LOWESS) of selected outcomes by age and ethnicity.'}
 HD_longitudinal %>%
   mutate(Hippocampus = `01_L_hippocampus` + `01_R_hippocampus`) %>%
   select(Med_ID, Age, Ethnicity, `01_AB_FBB_Global_SUVR`, 
