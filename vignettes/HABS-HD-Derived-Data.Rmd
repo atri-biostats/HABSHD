@@ -39,7 +39,14 @@ HD_longitudinal <- lapply(list(HD_Visit_1, HD_Visit_2, HD_Visit_3),
   function(x){
     x %>% mutate(across(all_of(inconsistent_cols), as.character))
   }) %>%
-  bind_rows()
+  bind_rows() %>%
+  group_by(Med_ID) %>%
+  mutate(
+    `Age at baseline` = min(Age, na.rm=TRUE),
+    `Years from baseline` = Age - `Age at baseline`) %>%
+  ungroup() %>%
+  select(Visit_ID, Med_ID, `Age at baseline`, `Years from baseline`,
+    everything())
 ```
 
 # Derive HD_subjinfo
