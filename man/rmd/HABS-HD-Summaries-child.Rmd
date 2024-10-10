@@ -23,7 +23,8 @@ HD_longitudinal %>%
 ggplot(aes(x=Age, y=value, color=Ethnicity)) +
   geom_point(alpha=0.1) +
   geom_line(aes(group = Med_ID), alpha=0.1) +
-  facet_wrap(vars(name), scales = 'free_y')
+  facet_wrap(vars(name), scales = 'free_y') +
+  guides(colour = guide_legend(override.aes = list(alpha=1)))
 ```
 
 ```{r habs-loess, fig.cap='Locally weighted scatterplot smooths (LOWESS) of selected outcomes by age and ethnicity.'}
@@ -36,5 +37,6 @@ HD_longitudinal %>%
 ggplot(aes(x=Age, y=value, color=Ethnicity)) +
   geom_smooth(method = 'loess') +
   geom_rug(alpha = 0.1) +
-  facet_wrap(vars(name), scales = 'free_y')
+  facet_wrap(vars(name), scales = 'free_y') +
+  guides(colour = guide_legend(override.aes = list(alpha=1)))
 ```
