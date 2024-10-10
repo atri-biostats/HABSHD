@@ -1,5 +1,5 @@
 ---
-title: "HABS-HD-Derived-Data"
+title: "HABS-HD Derived Data"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{HABS-HD Derived Data}
