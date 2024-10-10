@@ -1,9 +1,10 @@
-pandoc: 3.1.5
+pandoc: '3.2'
 pkgdown: 2.0.9
 pkgdown_sha: ~
 articles:
-  HABS-HD-Baseline-Characteristics: HABS-HD-Baseline-Characteristics.html
-last_built: 2024-10-03T21:40Z
+  HABS-HD-Derived-Data: HABS-HD-Derived-Data.html
+  HABS-HD-Summaries: HABS-HD-Summaries.html
+last_built: 2024-10-10T20:28Z
 urls:
   reference: https://mcdonohue.github.io/HABSHD/reference
   article: https://mcdonohue.github.io/HABSHD/articles

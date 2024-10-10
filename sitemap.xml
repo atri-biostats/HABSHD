@@ -4,7 +4,10 @@
     <loc>https://mcdonohue.github.io/HABSHD/404.html</loc>
   </url>
   <url>
-    <loc>https://mcdonohue.github.io/HABSHD/articles/HABS-HD-Baseline-Characteristics.html</loc>
+    <loc>https://mcdonohue.github.io/HABSHD/articles/HABS-HD-Derived-Data.html</loc>
+  </url>
+  <url>
+    <loc>https://mcdonohue.github.io/HABSHD/articles/HABS-HD-Summaries.html</loc>
   </url>
   <url>
     <loc>https://mcdonohue.github.io/HABSHD/articles/index.html</loc>
@@ -19,16 +22,25 @@
     <loc>https://mcdonohue.github.io/HABSHD/reference/HABSHD-package.html</loc>
   </url>
   <url>
-    <loc>https://mcdonohue.github.io/HABSHD/reference/HD_Data_Dictionary_Release_5.html</loc>
+    <loc>https://mcdonohue.github.io/HABSHD/reference/HD_Data_Dictionary.html</loc>
   </url>
   <url>
-    <loc>https://mcdonohue.github.io/HABSHD/reference/HD_Visit_1_Release_5_FINAL.html</loc>
+    <loc>https://mcdonohue.github.io/HABSHD/reference/HD_Visit_1.html</loc>
   </url>
   <url>
-    <loc>https://mcdonohue.github.io/HABSHD/reference/HD_Visit_2_Release_5_FINAL.html</loc>
+    <loc>https://mcdonohue.github.io/HABSHD/reference/HD_Visit_2.html</loc>
   </url>
   <url>
-    <loc>https://mcdonohue.github.io/HABSHD/reference/HD_Visit_3_Release_5_FINAL.html</loc>
+    <loc>https://mcdonohue.github.io/HABSHD/reference/HD_Visit_3.html</loc>
+  </url>
+  <url>
+    <loc>https://mcdonohue.github.io/HABSHD/reference/HD_labels.html</loc>
+  </url>
+  <url>
+    <loc>https://mcdonohue.github.io/HABSHD/reference/HD_longitudinal.html</loc>
+  </url>
+  <url>
+    <loc>https://mcdonohue.github.io/HABSHD/reference/HD_subjinfo.html</loc>
   </url>
   <url>
     <loc>https://mcdonohue.github.io/HABSHD/reference/data_release_date.html</loc>
