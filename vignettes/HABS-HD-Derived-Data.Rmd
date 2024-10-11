@@ -6,13 +6,13 @@ vignette: >
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
-
+  
 ```{r, include = FALSE}
 library(tidyverse)
 
 knitr::opts_chunk$set(
-  collapse = TRUE,
-  comment = "#>"
+collapse = TRUE,
+comment = "#>"
 )
 ```
 
@@ -20,9 +20,9 @@ knitr::opts_chunk$set(
 library(HABSHD)
 ```
 
-# Derive HD_longitudinal
+# Derive `HD_longitudinal`
 
-HD_longitudinal is a derived dataset which stacks the data from all visits.
+`HD_longitudinal` is a derived dataset which stacks the data from all visits.
 
 Some variables have different types across visits. We convert this to character so that the datasets can be defined.
 
@@ -49,9 +49,13 @@ HD_longitudinal <- lapply(list(HD_Visit_1, HD_Visit_2, HD_Visit_3),
     everything())
 ```
 
-# Derive HD_subjinfo
+# Derive `HD_subjinfo`
 
-HD_subjinfo contains key subject information ("HD_subjinfo") on baseline characteristics. Missing data are carried back where possible.
+`HD_subjinfo` contains key subject information on baseline characteristics. Data manipulations include:
+
+* Missing data are filled by carrying observations back where possible
+* `Mean_ICV_HD` is calculated as the mean over all visits
+* `ADI_StateRank` is converted to numeric. Some character strings (e.g. "GQ", "Invalid Address", "PH") are converted to NA.
 
 ```{r}
 HD_subjinfo <- HD_longitudinal %>% 
@@ -78,9 +82,58 @@ HD_subjinfo <- HD_longitudinal %>%
   ungroup()
 ```
 
-# Derive HPACC 
+# Check for duplicated `Med_ID` in `HD_subjinfo`
 
-## Summarize PACC components at baseline among cognitively normal
+```{r}
+if(any(duplicated(HD_subjinfo$Med_ID))){
+  message('Duplicated Med_ID found in HD_subjinfo for Visit_ID 1:',
+    paste(HD_subjinfo$Med_ID[which(duplicated(HD_subjinfo$Med_ID))],
+      collapse = ', '), '\n Removing second occurrence.')
+  HD_subjinfo <- HD_subjinfo %>%
+    distinct(Med_ID, .keep_all = TRUE)
+}else{
+  message('No duplicates found.')
+}
+```
+
+# Check for duplicated `Med_ID/Visit_ID` combinations in `HD_longitudinal`
+
+```{r}
+if(with(HD_longitudinal, any(duplicated(paste(Med_ID, Visit_ID))))){
+
+  dups <- HD_longitudinal %>%
+    group_by(Med_ID, Visit_ID) %>%
+    filter(n()>1) %>%
+    select(Med_ID, Visit_ID) %>%
+    distinct()
+  
+  dups %>%
+    knitr::kable(caption = 'Duplicated Med_ID/Visit_ID found in HD_longitudinal. Duplicates will be removed after filling any missing values by carrying observations backward within Visit_ID.') %>%
+    print()
+  
+  HD_longitudinal_dups <- HD_longitudinal %>%
+    filter(paste(Med_ID, Visit_ID) %in% with(dups, paste(Med_ID, Visit_ID))) %>%
+    group_by(Med_ID, Visit_ID) %>%
+    tidyr::fill(names(.), .direction='up') %>%
+    distinct(Med_ID, Visit_ID, .keep_all = TRUE) %>%
+    ungroup()
+  
+  HD_longitudinal <- HD_longitudinal %>%
+    filter(!paste(Med_ID, Visit_ID) %in% with(dups, paste(Med_ID, Visit_ID))) %>%
+    bind_rows(HD_longitudinal_dups) %>%
+    arrange(Med_ID, Visit_ID)
+  
+  if(with(HD_longitudinal, any(duplicated(paste(Med_ID, Visit_ID))))){
+    stop("Duplicates Med_ID/Visit_ID in HD_longitudinal remain.")
+  }
+}else{
+  message('No duplicates found.')
+}
+```
+
+# Derive `HPACC`
+
+## Summarize HPACC components at baseline among cognitively normal
 
 ```{r}
 pacc_summaries <-
@@ -103,7 +156,7 @@ pacc_summaries <-
 knitr::kable(pacc_summaries, caption = 'HPACC component summaries among cognitively unimpaired at baseline.', digits = 2)
 ```
 
-## Generate HPACC Z scores for HD_subjinfo and HD_longitudinal
+## Generate HPACC Z scores for `HD_subjinfo` and `HD_longitudinal`
 
 ```{r}
 for(cc in pacc_summaries$Component){
@@ -114,7 +167,7 @@ for(cc in pacc_summaries$Component){
 }
 ```
 
-## Sum HPACC Z scores to form HPACC in HD_subjinfo and HD_longitudinal
+## Sum HPACC Z scores to form `HPACC` in `HD_subjinfo` and `HD_longitudinal`
 
 ```{r}
 HD_subjinfo$HPACC <- apply(HD_subjinfo[, paste0(pacc_summaries$Component, '_Z')], 1, sum)
@@ -140,7 +193,12 @@ HD_longitudinal <- HD_longitudinal %>% mutate(
 HD_longitudinal <- HD_longitudinal %>% select(-HPACC_NAsum)
 ```
 
-# Create variable labels
+# Create `HD_labels`
+
+`HD_labels` are human friendly versions of variable names stored as a character vector. The names of the vector components correspond to variable names (e.g. `ID_Hispanic`) and values correspond to labels (e.g. Hispanic). Manipulations include:
+
+* Remove `ID_`, `01_`, `02_`
+* Convert `_` to a blank space
 
 ```{r}
 HD_labels <- colnames(HD_subjinfo)
