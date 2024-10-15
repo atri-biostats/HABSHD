@@ -9,3 +9,4 @@ To generate the package from source csv files:
   `data-raw/*.csv` files to `data/*.rda` files
 - `source('tools/build.R', chdir=TRUE)` to generate documentation and
   build R package
+- `source('data-sas/r2sas.R', chdir=TRUE)` to generate sas xpt files
