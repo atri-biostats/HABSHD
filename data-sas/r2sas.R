@@ -23,10 +23,46 @@ HD_meta_data <- tibble(
   Meta_data_value = c(data_release_version, as.character(data_release_date))
 )
 
+manual_abbr <- c(
+  IDRaceSpecifyOtherPacificRace = "ID_Race_Specify_OtherPacific_Race",
+  IAC_Alternative1_Relationship_OtherRelative)
+
+prep_names_for_sas <- function(x){
+  y <- x %>%
+    gsub(' ', '_', .) %>%
+    gsub('/', '_', .) %>%
+    gsub('-', '_', .) %>%
+    gsub('.', '_', ., fixed = TRUE) %>%
+    gsub("(", '', ., fixed = TRUE) %>%
+    gsub(")", '', ., fixed = TRUE) %>%
+    gsub('ó', 'o', .) %>%
+    gsub('é', 'e', .) %>%
+    gsub('í', 'i', .) %>%
+    gsub('á', 'a', .) %>%
+    gsub('01_', '', .) %>%
+    gsub('02_', '', .) %>%
+    gsub('03_', '', .) %>%
+    gsub('r5_LUM_Plasma_SARS_CoV2_Spike_B_', 
+      'r5LUMPlasmaSARSCoV2SpikeB', .) %>%
+    gsub('AD_Anterior_limb_of_internal_capsule',
+      'ADAnteLimbOfIntCap', .) %>%
+    gsub('AD_Posterior_limb_of_internal_capsule',
+      'ADPostLimbOfIntCap', .) %>%
+    gsub('AD_Posterior_thalamic_radiation_',
+      'ADPostThalRad', .) %>%
+    gsub('AD_Superior_longitudinal_fascicu',
+      'ADSupLongFasc', .) %>%
+    substr(., 1, 32)
+  y <- make.unique(y)
+  if(any(y != x)){
+    warning('Variable names converted for SAS')
+    print(data.frame(old_name = x[y != x], new_name = y[y != x]))
+  }
+  y
+}
+
 for(ff in c(rda_names, 'HD_meta_data')){
   dd <- get(ff)
-  colnames(dd) <- colnames(dd) %>%
-    gsub(' ', '_', .) %>%
-    gsub('/', '_', .)
+  colnames(dd) <- prep_names_for_sas(colnames(dd))
   write_xpt(dd, paste0(ff, '.xpt'))
 }
