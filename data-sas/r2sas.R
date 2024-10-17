@@ -23,10 +23,6 @@ HD_meta_data <- tibble(
   Meta_data_value = c(data_release_version, as.character(data_release_date))
 )
 
-manual_abbr <- c(
-  IDRaceSpecifyOtherPacificRace = "ID_Race_Specify_OtherPacific_Race",
-  IAC_Alternative1_Relationship_OtherRelative)
-
 prep_names_for_sas <- function(x){
   y <- x %>%
     gsub(' ', '_', .) %>%
@@ -42,27 +38,68 @@ prep_names_for_sas <- function(x){
     gsub('01_', '', .) %>%
     gsub('02_', '', .) %>%
     gsub('03_', '', .) %>%
+    gsub('04_', '', .) %>%
     gsub('r5_LUM_Plasma_SARS_CoV2_Spike_B_', 
       'r5LUMPlasmaSARSCoV2SpikeB', .) %>%
-    gsub('AD_Anterior_limb_of_internal_capsule',
-      'ADAnteLimbOfIntCap', .) %>%
-    gsub('AD_Posterior_limb_of_internal_capsule',
-      'ADPostLimbOfIntCap', .) %>%
-    gsub('AD_Posterior_thalamic_radiation_',
-      'ADPostThalRad', .) %>%
-    gsub('AD_Superior_longitudinal_fascicu',
-      'ADSupLongFasc', .) %>%
+    gsub('_Anterior', 'Ant', .) %>%
+    gsub('_Posterior', 'Post', .) %>%
+    gsub('_Superior', 'Sup', .) %>%
+    gsub('_Inferior', 'Inf', .) %>%
+    gsub('_limb_of', 'Limb', .) %>%
+    gsub('_internal', 'Int', .) %>%
+    gsub('_capsule', 'Cap', .) %>%
+    gsub('_thalamic', 'Thal', .) %>%
+    gsub('_radiation', 'Rad', .) %>%
+    gsub('_longitudinal', 'Long', .) %>%
+    gsub('_fasciculus', 'Fasc', .) %>%
+    gsub('_occipital', 'Occ', .) %>%
+    gsub('_fronto', 'Front', .) %>%
+    gsub('_of_corpus_callosum', 'CorpCall', .) %>%
     substr(., 1, 32)
-  y <- make.unique(y)
+  if(any(duplicated(y))){
+    stop('Duplicate variable names:', y[duplicated(y)])
+  }
+  # y <- make.unique(y)
   if(any(y != x)){
     warning('Variable names converted for SAS')
-    print(data.frame(old_name = x[y != x], new_name = y[y != x]))
+    converted_names <- data.frame(old_name = x[y != x], new_name = y[y != x])
+    print(converted_names)
+  }else{
+    converted_names <- NULL
   }
-  y
+  list(all_names = y, converted_names = converted_names)
 }
 
-for(ff in c(rda_names, 'HD_meta_data')){
+CN <- NULL
+for(ff in setdiff(c(rda_names, 'HD_meta_data'), 'HD_Data_Dictionary')){
   dd <- get(ff)
-  colnames(dd) <- prep_names_for_sas(colnames(dd))
+  tmp <- prep_names_for_sas(colnames(dd))
+  colnames(dd) <- tmp$all_names
+  CN <- bind_cols(table = ff, tmp$converted_names) %>%
+    bind_rows(CN)
   write_xpt(dd, paste0(ff, '.xpt'))
 }
+
+# update and write SAS data dictionary ----
+CN <- CN %>% 
+  filter(!is.na(old_name)) %>%
+  select(-table) %>%
+  distinct()
+if(any(duplicated(CN$old_name))){
+  stop('Old names mapped to more than one new name:',
+    CN$old_name[duplicated(CN$old_name)])
+}
+
+dd <- HD_Data_Dictionary
+colnames(dd) <- prep_names_for_sas(colnames(dd))$all_names
+dd <- dd %>%
+  rename(old_name = Main_Variable) %>%
+  left_join(CN, by='old_name') %>%
+  mutate(
+    Main_Variable = case_when(
+      !is.na(new_name) ~ new_name,
+      TRUE ~ old_name)) %>%
+  rename(Original_Main_Variable = old_name) %>%
+  select(Category, Original_Main_Variable, Main_Variable,
+    everything())
+write_xpt(dd, 'HD_Data_Dictionary.xpt')
