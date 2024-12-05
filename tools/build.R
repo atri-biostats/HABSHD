@@ -1,7 +1,7 @@
 library(tidyverse); library(devtools);
 
 # Load data ----
-devtools::load_all('../')
+load_all('../')
 
 # Document all ATRI dataset(s) ----
 source("document.R")

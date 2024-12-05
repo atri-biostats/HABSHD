@@ -4,8 +4,8 @@ library(tidyverse); library(devtools);
 dir.create('../data')
 
 # Store release number and date ----
-data_release_date <- as.Date("2024-04-01")
-data_release_version <- 5
+data_release_date <- as.Date("2024-11-12")
+data_release_version <- 6
 NA_STRINGS <- c('-9999', '-8888', 'NULL', 'NaT')
 usethis::use_data(data_release_date, overwrite = TRUE)
 usethis::use_data(data_release_version, overwrite = TRUE)
