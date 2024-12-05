@@ -14,7 +14,9 @@ tableby(Ethnicity ~ . , data = HD_subjinfo %>%
 # Summary plots
 
 ```{r habs-spaghetti, fig.cap='Spaghetti of selected outcomes by age and ethnicity.'}
-HD_longitudinal %>%
+HD_Imaging %>% 
+  select(-Ethnicity) %>%
+  left_join(HD_Clinical, by = c('Med_ID', 'Visit_ID', 'Age')) %>%
   mutate(Hippocampus = `01_L_hippocampus` + `01_R_hippocampus`) %>%
   select(Med_ID, Age, Ethnicity, `01_AB_FBB_Global_SUVR`, 
     `01_TAU_PI2620_Medial_Temporal_SUVR`, Hippocampus, 
@@ -28,7 +30,9 @@ ggplot(aes(x=Age, y=value, color=Ethnicity)) +
 ```
 
 ```{r habs-loess, fig.cap='Locally weighted scatterplot smooths (LOWESS) of selected outcomes by age and ethnicity.'}
-HD_longitudinal %>%
+HD_Imaging %>% 
+  select(-Ethnicity) %>%
+  left_join(HD_Clinical, by = c('Med_ID', 'Visit_ID', 'Age')) %>%
   mutate(Hippocampus = `01_L_hippocampus` + `01_R_hippocampus`) %>%
   select(Med_ID, Age, Ethnicity, `01_AB_FBB_Global_SUVR`, 
     `01_TAU_PI2620_Medial_Temporal_SUVR`, Hippocampus, 

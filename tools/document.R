@@ -103,7 +103,7 @@ for(ff in rda_files){
       dic.sub$`Main Variable`, ": ",
       escape(dic.sub$Label), '. Units: ',
       dic.sub$`Missing/Unit of Measure`, '. Coding: ',
-      escape(dic.sub$`Value/File name`))),
+      escape(dic.sub$Value))),
     "#' }",
     "#' @docType data",
     "#' @keywords datasets",

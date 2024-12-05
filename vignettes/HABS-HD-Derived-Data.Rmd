@@ -20,33 +20,101 @@ comment = "#>"
 library(HABSHD)
 ```
 
-# Derive `HD_longitudinal`
+# Check for and remove duplicated `Med_ID` in `Visit_ID`, remove `NA` `Med_ID`
 
-`HD_longitudinal` is a derived dataset which stacks the data from all visits.
-
-Some variables have different types across visits. We convert this to character so that the datasets can be defined.
+## `HD_clinical` duplicates
 
 ```{r}
-inconsistent_cols <- 
-  c('Interview_Start', 'Interview_End', 'OM_Time1', 'IN_Seizures_MostRecent',
-    'IN_Seizures_First', 'OM_Time2', 'Cancer_Breast_7', 'Cancer_Colon_7',
-    'Cancer_Siblings', 'Cancer_Siblings_History', 'Medication_20_Frequency',
-    'Medication_21_Frequency', 'Medication_22_Frequency',
-    'Medication_23_Frequency', 'Medication_24_Frequency',
-    'Medication_25_Frequency', 'BW_Monocytes', '01_MRI_Date_Days_Differential')
+dups <- HD_Clinical %>%
+  group_by(Med_ID, Visit_ID) %>%
+  filter(n()>1) %>%
+  select(Med_ID, Visit_ID) %>%
+  distinct()
 
-HD_longitudinal <- lapply(list(HD_Visit_1, HD_Visit_2, HD_Visit_3), 
-  function(x){
-    x %>% mutate(across(all_of(inconsistent_cols), as.character))
-  }) %>%
-  bind_rows() %>%
-  group_by(Med_ID) %>%
-  mutate(
-    `Age at baseline` = min(Age, na.rm=TRUE),
-    `Years from baseline` = Age - `Age at baseline`) %>%
-  ungroup() %>%
-  select(Visit_ID, Med_ID, `Age at baseline`, `Years from baseline`,
-    everything())
+if(nrow(dups) > 0){
+  dups %>%
+    knitr::kable(caption = 'Duplicated Med_ID/Visit_ID found in HD_clinical. Duplicates will be removed.') %>%
+    print()
+  
+  HD_Clinical <- HD_Clinical %>% 
+    group_by(Med_ID, Visit_ID) %>%
+    distinct(Med_ID, Visit_ID, .keep_all = TRUE) %>%
+    filter(!is.na(Med_ID))
+}else{
+   message('No duplicates found.')
+}
+```
+
+## `HD_Biomarkers` duplicates
+
+```{r}
+dups <- HD_Biomarkers %>%
+  group_by(Med_ID, Visit_ID) %>%
+  filter(n()>1) %>%
+  select(Med_ID, Visit_ID) %>%
+  distinct()
+
+if(nrow(dups) > 0){
+  dups %>%
+    knitr::kable(caption = 'Duplicated Med_ID/Visit_ID found in HD_Biomarkers. Duplicates will be removed after filling any missing values by carrying observations backward within Visit_ID.') %>%
+    print()
+  
+  HD_Biomarkers <- HD_Biomarkers %>% 
+    group_by(Med_ID, Visit_ID) %>%
+    tidyr::fill(names(.), .direction='up') %>%
+    distinct(Med_ID, Visit_ID, .keep_all = TRUE) %>%
+    filter(!is.na(Med_ID))
+}else{
+   message('No duplicates found.')
+}
+```
+
+## `HD_Genomics` duplicates
+
+```{r}
+dups <- HD_Genomics %>%
+  group_by(Med_ID, Visit_ID) %>%
+  filter(n()>1) %>%
+  select(Med_ID, Visit_ID) %>%
+  distinct()
+
+if(nrow(dups) > 0){
+  dups %>%
+    knitr::kable(caption = 'Duplicated Med_ID/Visit_ID found in HD_Genomics. Duplicates will be removed after filling any missing values by carrying observations backward within Visit_ID.') %>%
+    print()
+  
+  HD_Genomics <- HD_Genomics %>% 
+    group_by(Med_ID, Visit_ID) %>%
+    tidyr::fill(names(.), .direction='up') %>%
+    distinct(Med_ID, Visit_ID, .keep_all = TRUE) %>%
+    filter(!is.na(Med_ID))
+}else{
+   message('No duplicates found.')
+}
+```
+
+## `HD_Imaging` duplicates
+
+```{r}
+dups <- HD_Imaging %>%
+  group_by(Med_ID, Visit_ID) %>%
+  filter(n()>1) %>%
+  select(Med_ID, Visit_ID) %>%
+  distinct()
+
+if(nrow(dups) > 0){
+  dups %>%
+    knitr::kable(caption = 'Duplicated Med_ID/Visit_ID found in HD_Imaging. Duplicates will be removed after filling any missing values by carrying observations backward within Visit_ID.') %>%
+    print()
+  
+  HD_Imaging <- HD_Imaging %>% 
+    group_by(Med_ID, Visit_ID) %>%
+    tidyr::fill(names(.), .direction='up') %>%
+    distinct(Med_ID, Visit_ID, .keep_all = TRUE) %>%
+    filter(!is.na(Med_ID))
+}else{
+   message('No duplicates found.')
+}
 ```
 
 # Derive `HD_subjinfo`
@@ -58,31 +126,48 @@ HD_longitudinal <- lapply(list(HD_Visit_1, HD_Visit_2, HD_Visit_3),
 * `ADI_StateRank` is converted to numeric. Some character strings (e.g. "GQ", "Invalid Address", "PH") are converted to NA.
 
 ```{r}
-HD_subjinfo <- HD_longitudinal %>% 
+HD_subjinfo_clinical <- HD_Clinical %>% 
   arrange(Med_ID, Visit_ID) %>%
   group_by(Med_ID) %>%
-  mutate(Mean_ICV_HD = mean(`01_ICV_HD`, na.rm = TRUE)) %>%
-  select(Med_ID, Visit_ID, CDX_Cog, Age, Ethnicity, 
-    APOE4_rs429358, APOE4_rs7412, APOE4_SNP,
-    APOE4_Positivity, ID_Hispanic, ID_Race_White, ID_Race_Black,
-    ID_Race_IndianAlaska, ID_Race_Specify_AmerInd_Tribe, ID_Race_Asian,
-    ID_Race_Specify_Asian_Race, ID_Race_Japanese, ID_Race_Korean,
+  select(Med_ID, Visit_ID, CDX_Cog, Age, Ethnicity, ID_Hispanic, ID_Race_White,
+    ID_Race_Black, ID_Race_IndianAlaska, ID_Race_Specify_AmerInd_Tribe,
+    ID_Race_Asian, ID_Race_Specify_Asian_Race, ID_Race_Japanese, ID_Race_Korean,
     ID_Race_Vietnamese, ID_Race_NativeHawaiian, ID_Race_GuamChamorro,
     ID_Race_Samoan, ID_Race_OtherPacific, ID_Race_Specify_OtherPacific_Race,
     ID_Race_Other, ID_Race_Specify, ID_Gender, Interview_Language,
-    ID_Language_Primary, ADI_StateRank,
-    `01_AB_FBB_AB_pos`, `01_TAU_PI2620_Medial_Temporal_SUVR`, 
-    `01_L_hippocampus`, `01_R_hippocampus`, `01_ICV_HD`, `Mean_ICV_HD`,
-    `02_WMH_Volume_Raw`, `02_WMH_Volume_Log`,
-    MMSE_Total, Digit_Symbol_Substitution, SEVLT_DR_Total, 
-    LM2_AB_Total, Animal_Total) %>%
+    ID_Language_Primary, ADI_StateRank, MMSE_Total, Digit_Symbol_Substitution,
+    SEVLT_DR_Total, LM2_AB_Total, Animal_Total) %>%
   tidyr::fill(names(.), .direction='up') %>%
   filter(Visit_ID == 1) %>%
   mutate(ADI_StateRank = as.numeric(ADI_StateRank)) %>%
   ungroup()
+
+HD_subjinfo_imaging <- HD_Imaging %>% 
+  arrange(Med_ID, Visit_ID) %>%
+  group_by(Med_ID) %>%
+  mutate(Mean_ICV_HD = mean(`01_ICV_HD`, na.rm = TRUE)) %>%
+  select(`Med_ID`, `Visit_ID`,
+    `01_AB_FBB_AB_pos`, `01_TAU_PI2620_Medial_Temporal_SUVR`,
+    `01_L_hippocampus`, `01_R_hippocampus`, `01_ICV_HD`, `02_WMH_Volume_Raw`,
+    `02_WMH_Volume_Log`) %>%
+  tidyr::fill(names(.), .direction='up') %>%
+  filter(Visit_ID == 1) %>%
+  ungroup()
+
+HD_subjinfo_genomics <- HD_Genomics %>% 
+  arrange(Med_ID, Visit_ID) %>%
+  group_by(Med_ID) %>%
+  select(-Age, -Ethnicity, -ID_Education, -ID_Gender) %>%
+  tidyr::fill(names(.), .direction='up') %>%
+  filter(Visit_ID == 1) %>%
+  ungroup()
+
+HD_subjinfo <- HD_subjinfo_clinical %>%
+  left_join(HD_subjinfo_genomics, by = c("Med_ID", "Visit_ID")) %>%
+  left_join(HD_subjinfo_imaging, by = c("Med_ID", "Visit_ID"))
 ```
 
-# Check for duplicated `Med_ID` in `HD_subjinfo`
+## Check for duplicated `Med_ID` in `HD_subjinfo`
 
 ```{r}
 if(any(duplicated(HD_subjinfo$Med_ID))){
@@ -91,41 +176,6 @@ if(any(duplicated(HD_subjinfo$Med_ID))){
       collapse = ', '), '\n Removing second occurrence.')
   HD_subjinfo <- HD_subjinfo %>%
     distinct(Med_ID, .keep_all = TRUE)
-}else{
-  message('No duplicates found.')
-}
-```
-
-# Check for duplicated `Med_ID/Visit_ID` combinations in `HD_longitudinal`
-
-```{r}
-if(with(HD_longitudinal, any(duplicated(paste(Med_ID, Visit_ID))))){
-
-  dups <- HD_longitudinal %>%
-    group_by(Med_ID, Visit_ID) %>%
-    filter(n()>1) %>%
-    select(Med_ID, Visit_ID) %>%
-    distinct()
-  
-  dups %>%
-    knitr::kable(caption = 'Duplicated Med_ID/Visit_ID found in HD_longitudinal. Duplicates will be removed after filling any missing values by carrying observations backward within Visit_ID.') %>%
-    print()
-  
-  HD_longitudinal_dups <- HD_longitudinal %>%
-    filter(paste(Med_ID, Visit_ID) %in% with(dups, paste(Med_ID, Visit_ID))) %>%
-    group_by(Med_ID, Visit_ID) %>%
-    tidyr::fill(names(.), .direction='up') %>%
-    distinct(Med_ID, Visit_ID, .keep_all = TRUE) %>%
-    ungroup()
-  
-  HD_longitudinal <- HD_longitudinal %>%
-    filter(!paste(Med_ID, Visit_ID) %in% with(dups, paste(Med_ID, Visit_ID))) %>%
-    bind_rows(HD_longitudinal_dups) %>%
-    arrange(Med_ID, Visit_ID)
-  
-  if(with(HD_longitudinal, any(duplicated(paste(Med_ID, Visit_ID))))){
-    stop("Duplicates Med_ID/Visit_ID in HD_longitudinal remain.")
-  }
 }else{
   message('No duplicates found.')
 }
@@ -156,18 +206,18 @@ pacc_summaries <-
 knitr::kable(pacc_summaries, caption = 'HPACC component summaries among cognitively unimpaired at baseline.', digits = 2)
 ```
 
-## Generate HPACC Z scores for `HD_subjinfo` and `HD_longitudinal`
+## Generate HPACC Z scores for `HD_subjinfo` and `HD_Clincal`
 
 ```{r}
 for(cc in pacc_summaries$Component){
   x <- filter(pacc_summaries, Component == cc)
   HD_subjinfo[,paste0(cc, '_Z')] <- (HD_subjinfo %>% pull(cc) - x$Mean)/x$SD
-  HD_longitudinal[,paste0(cc, '_Z')] <- 
-    (HD_longitudinal %>% pull(cc) - x$Mean)/x$SD
+  HD_Clinical[,paste0(cc, '_Z')] <- 
+    (HD_Clinical %>% pull(cc) - x$Mean)/x$SD
 }
 ```
 
-## Sum HPACC Z scores to form `HPACC` in `HD_subjinfo` and `HD_longitudinal`
+## Sum HPACC Z scores to form `HPACC` in `HD_subjinfo` and `HD_Clinical`
 
 ```{r}
 HD_subjinfo$HPACC <- apply(HD_subjinfo[, paste0(pacc_summaries$Component, '_Z')], 1, sum)
@@ -181,16 +231,16 @@ HD_subjinfo <- HD_subjinfo %>% mutate(
   ))
 HD_subjinfo <- HD_subjinfo %>% mutate(-HPACC_NAsum)
 
-HD_longitudinal$HPACC <- apply(HD_longitudinal[, paste0(pacc_summaries$Component, '_Z')], 1, sum)
-HD_longitudinal$HPACC_NA <- apply(is.na(HD_longitudinal[, paste0(pacc_summaries$Component, '_Z')]), 1, sum)
-HD_longitudinal$HPACC_NAsum <- apply(HD_longitudinal[, paste0(pacc_summaries$Component, '_Z')], 1, sum, na.rm=TRUE)
-HD_longitudinal <- HD_longitudinal %>% mutate(
+HD_Clinical$HPACC <- apply(HD_Clinical[, paste0(pacc_summaries$Component, '_Z')], 1, sum)
+HD_Clinical$HPACC_NA <- apply(is.na(HD_Clinical[, paste0(pacc_summaries$Component, '_Z')]), 1, sum)
+HD_Clinical$HPACC_NAsum <- apply(HD_Clinical[, paste0(pacc_summaries$Component, '_Z')], 1, sum, na.rm=TRUE)
+HD_Clinical <- HD_Clinical %>% mutate(
   HPACC_Prorated = case_when(
     HPACC_NA == 0 ~ HPACC,
     HPACC_NA == 1 ~ HPACC_NAsum * 5 / 4,
     HPACC_NA == 2 ~ HPACC_NAsum * 5 / 3
   ))
-HD_longitudinal <- HD_longitudinal %>% select(-HPACC_NAsum)
+HD_Clinical <- HD_Clinical %>% select(-HPACC_NAsum)
 ```
 
 # Create `HD_labels`

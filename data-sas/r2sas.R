@@ -1,6 +1,9 @@
 library(tidyverse); library(devtools);
 library(haven) # includes write_xpt
 
+# wipe any existing xpt files ----
+file.remove(list.files(pattern='.xpt'))
+
 # load HABS-HD R data ----
 devtools::load_all('../')
 
@@ -25,6 +28,8 @@ HD_meta_data <- tibble(
 
 prep_names_for_sas <- function(x){
   y <- x %>%
+    gsub("r5_LUM(Pro)_Plasma", "r5lumplas", ., fixed = TRUE) %>%
+    gsub("SARS_CoV2_Spike", "COV2Spike", ., fixed = TRUE) %>%
     gsub(' ', '_', .) %>%
     gsub('/', '_', .) %>%
     gsub('-', '_', .) %>%
@@ -39,6 +44,8 @@ prep_names_for_sas <- function(x){
     gsub('02_', '', .) %>%
     gsub('03_', '', .) %>%
     gsub('04_', '', .) %>%
+    gsub('05_', '', .) %>%
+    gsub('06_', '', .) %>%
     gsub('r5_LUM_Plasma_SARS_CoV2_Spike_B_', 
       'r5LUMPlasmaSARSCoV2SpikeB', .) %>%
     gsub('_Anterior', 'Ant', .) %>%
