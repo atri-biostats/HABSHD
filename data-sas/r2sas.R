@@ -1,8 +1,15 @@
 library(tidyverse); library(devtools);
 library(haven) # includes write_xpt
+# library(foreign) # includes write.foreign
+
+# make dirs ----
+dir.create('HABSHD-SAS-xpt')
+dir.create('HABSHD-SAS-csv')
 
 # wipe any existing xpt files ----
-file.remove(list.files(pattern='.xpt'))
+file.remove(list.files('HABSHD-SAS-xpt', pattern='.xpt', full.names = TRUE))
+file.remove(list.files('HABSHD-SAS-csv', pattern='.csv', full.names = TRUE))
+file.remove(list.files('HABSHD-SAS-csv', pattern='.sas', full.names = TRUE))
 
 # load HABS-HD R data ----
 devtools::load_all('../')
@@ -84,7 +91,14 @@ for(ff in setdiff(c(rda_names, 'HD_meta_data'), 'HD_Data_Dictionary')){
   colnames(dd) <- tmp$all_names
   CN <- bind_cols(table = ff, tmp$converted_names) %>%
     bind_rows(CN)
-  write_xpt(dd, paste0(ff, '.xpt'))
+  write_xpt(dd, file.path('HABSHD-SAS-xpt', paste0(ff, '.xpt')))
+  write_csv(dd, file.path('HABSHD-SAS-csv', paste0(ff, '.csv')))
+  # setwd('HABSHD-SAS-csv')
+  # write.foreign(df=dd, 
+  #   datafile = paste0(ff, ".csv"), 
+  #   codefile = paste0(ff, ".sas"), 
+  #   package="SAS")
+  # setwd('../')
 }
 
 # update and write SAS data dictionary ----
@@ -110,3 +124,5 @@ dd <- dd %>%
   select(Category, Original_Main_Variable, Main_Variable,
     everything())
 write_xpt(dd, 'HD_Data_Dictionary.xpt')
+write_xpt(dd, file.path('HABSHD-SAS-xpt', 'HD_Data_Dictionary.xpt'))
+write_csv(dd, file.path('HABSHD-SAS-csv', 'HD_Data_Dictionary.csv'))
