@@ -1,5 +1,6 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
+
 <!-- R package version convention: first two digits are for code; last digit is data release number  -->
 
 # HABS-HD <a href="https://apps.unthsc.edu/itr/research/"><img src="man/figures/logo.png" align="right" height="138" /></a>
@@ -22,10 +23,10 @@ agreement](https://apps.unthsc.edu/itr/assets/documents/HABS_HD%20DUA.final.pdf)
 To install `HABSHD`:
 
 - Register at <https://apps.unthsc.edu/itr/research>
-- Download `HABSHD_0.3.6.tar.gz` from
+- Download `HABSHD_0.3.6.1.tar.gz` from
   <https://apps.unthsc.edu/itr/research/>
 - In R, run
-  `install.packages("path/to/HABSHD_0.3.6.tar.gz", repos = NULL, type = "source")`
+  `install.packages("path/to/HABSHD_0.3.6.1.tar.gz", repos = NULL, type = "source")`
 
 The script to build this R package can be found in
 [tools](https://github.com/mcdonohue/HABSHD/tree/main/tools).
@@ -427,15 +428,15 @@ ggplot(aes(x=Age, y=value, color=Ethnicity)) +
   geom_line(aes(group = Med_ID), alpha=0.1) +
   facet_wrap(vars(name), scales = 'free_y') +
   guides(colour = guide_legend(override.aes = list(alpha=1)))
-#> Adding missing grouping variables: `Visit_ID`
-#> Warning: Removed 8552 rows containing missing values or values outside the scale range (`geom_point()`).
-#> Warning: Removed 4831 rows containing missing values or values outside the scale range (`geom_line()`).
+#> Warning: Removed 8549 rows containing missing values or values outside the scale range (`geom_point()`).
+#> Warning: Removed 4830 rows containing missing values or values outside the scale range (`geom_line()`).
 ```
 
 <div class="figure">
 
 <img src="man/figures/README-habs-spaghetti-1.png" alt="Spaghetti of selected outcomes by age and ethnicity." width="100%" />
 <p class="caption">
+
 Spaghetti of selected outcomes by age and ethnicity.
 </p>
 
@@ -455,15 +456,15 @@ ggplot(aes(x=Age, y=value, color=Ethnicity)) +
   geom_rug(alpha = 0.1) +
   facet_wrap(vars(name), scales = 'free_y') +
   guides(colour = guide_legend(override.aes = list(alpha=1)))
-#> Adding missing grouping variables: `Visit_ID`
 #> `geom_smooth()` using formula = 'y ~ x'
-#> Warning: Removed 8550 rows containing non-finite outside the scale range (`stat_smooth()`).
+#> Warning: Removed 8549 rows containing non-finite outside the scale range (`stat_smooth()`).
 ```
 
 <div class="figure">
 
 <img src="man/figures/README-habs-loess-1.png" alt="Locally weighted scatterplot smooths (LOWESS) of selected outcomes by age and ethnicity." width="100%" />
 <p class="caption">
+
 Locally weighted scatterplot smooths (LOWESS) of selected outcomes by
 age and ethnicity.
 </p>

@@ -5,8 +5,9 @@ dir.create(file.path('..', 'data'))
 file.remove(file.path('..', 'data', list.files('../data')))
 
 # Store release number and date ----
-data_release_date <- as.Date("2024-11-12")
-data_release_version <- 6
+data_release_date <- as.Date("2024-12-06")
+data_release_major_version <- "6"
+data_release_version <- "6.1"
 NA_STRINGS <- c('-9999', '-8888', '-777777', 'NULL', 'NaT')
 usethis::use_data(data_release_date, overwrite = TRUE)
 usethis::use_data(data_release_version, overwrite = TRUE)
@@ -16,7 +17,7 @@ xlsx_files <- list.files(paste("Release", data_release_version), pattern = "\\.x
 for (file_name in xlsx_files) {
   df_name <- basename(file_name) %>%
     gsub(pattern = "\\.xlsx$", replacement = "") %>%
-    gsub(pattern = paste(' Release', data_release_version), replacement = '') %>%
+    gsub(pattern = paste(' Release', data_release_major_version), replacement = '') %>%
     gsub(pattern = ' ', replacement = '_')
   df <- readxl::read_excel(file_name)
   assign(df_name, df)
@@ -71,7 +72,7 @@ csv_files <- list.files(paste("Release", data_release_version), pattern = "\\.cs
 for (file_name in csv_files) {
   df_name <- basename(file_name) %>%
     gsub(pattern = "\\.csv$", replacement = "") %>%
-    gsub(pattern = paste0(' Release ', data_release_version), replacement = '') %>%
+    gsub(pattern = paste0(' Release ', data_release_major_version), replacement = '') %>%
     gsub(pattern = '_FINAL', replacement = '') %>%
     gsub(pattern = ' ', replacement = '_')
   message('Reading ', df_name)
