@@ -1,11 +1,10 @@
-pandoc: '3.2'
-pkgdown: 2.0.9
+pandoc: '3.6'
+pkgdown: 2.1.1
 pkgdown_sha: ~
 articles:
   HABS-HD-Derived-Data: HABS-HD-Derived-Data.html
   HABS-HD-Summaries: HABS-HD-Summaries.html
-last_built: 2024-10-10T20:28Z
+last_built: 2025-02-06T21:25Z
 urls:
-  reference: https://mcdonohue.github.io/HABSHD/reference
-  article: https://mcdonohue.github.io/HABSHD/articles
-
+  reference: https://atri-biostats.github.io/HABSHD/reference
+  article: https://atri-biostats.github.io/HABSHD/articles

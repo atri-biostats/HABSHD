@@ -1,54 +1,22 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>https://mcdonohue.github.io/HABSHD/404.html</loc>
-  </url>
-  <url>
-    <loc>https://mcdonohue.github.io/HABSHD/articles/HABS-HD-Derived-Data.html</loc>
-  </url>
-  <url>
-    <loc>https://mcdonohue.github.io/HABSHD/articles/HABS-HD-Summaries.html</loc>
-  </url>
-  <url>
-    <loc>https://mcdonohue.github.io/HABSHD/articles/index.html</loc>
-  </url>
-  <url>
-    <loc>https://mcdonohue.github.io/HABSHD/authors.html</loc>
-  </url>
-  <url>
-    <loc>https://mcdonohue.github.io/HABSHD/index.html</loc>
-  </url>
-  <url>
-    <loc>https://mcdonohue.github.io/HABSHD/reference/HABSHD-package.html</loc>
-  </url>
-  <url>
-    <loc>https://mcdonohue.github.io/HABSHD/reference/HD_Data_Dictionary.html</loc>
-  </url>
-  <url>
-    <loc>https://mcdonohue.github.io/HABSHD/reference/HD_Visit_1.html</loc>
-  </url>
-  <url>
-    <loc>https://mcdonohue.github.io/HABSHD/reference/HD_Visit_2.html</loc>
-  </url>
-  <url>
-    <loc>https://mcdonohue.github.io/HABSHD/reference/HD_Visit_3.html</loc>
-  </url>
-  <url>
-    <loc>https://mcdonohue.github.io/HABSHD/reference/HD_labels.html</loc>
-  </url>
-  <url>
-    <loc>https://mcdonohue.github.io/HABSHD/reference/HD_longitudinal.html</loc>
-  </url>
-  <url>
-    <loc>https://mcdonohue.github.io/HABSHD/reference/HD_subjinfo.html</loc>
-  </url>
-  <url>
-    <loc>https://mcdonohue.github.io/HABSHD/reference/data_release_date.html</loc>
-  </url>
-  <url>
-    <loc>https://mcdonohue.github.io/HABSHD/reference/data_release_version.html</loc>
-  </url>
-  <url>
-    <loc>https://mcdonohue.github.io/HABSHD/reference/index.html</loc>
-  </url>
+<urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
+<url><loc>https://atri-biostats.github.io/HABSHD/404.html</loc></url>
+<url><loc>https://atri-biostats.github.io/HABSHD/articles/HABS-HD-Derived-Data.html</loc></url>
+<url><loc>https://atri-biostats.github.io/HABSHD/articles/HABS-HD-Summaries.html</loc></url>
+<url><loc>https://atri-biostats.github.io/HABSHD/articles/index.html</loc></url>
+<url><loc>https://atri-biostats.github.io/HABSHD/authors.html</loc></url>
+<url><loc>https://atri-biostats.github.io/HABSHD/index.html</loc></url>
+<url><loc>https://atri-biostats.github.io/HABSHD/reference/Change_Log_Release.html</loc></url>
+<url><loc>https://atri-biostats.github.io/HABSHD/reference/HABSHD-package.html</loc></url>
+<url><loc>https://atri-biostats.github.io/HABSHD/reference/HD_Biomarkers.html</loc></url>
+<url><loc>https://atri-biostats.github.io/HABSHD/reference/HD_Clinical.html</loc></url>
+<url><loc>https://atri-biostats.github.io/HABSHD/reference/HD_Data_Dictionary.html</loc></url>
+<url><loc>https://atri-biostats.github.io/HABSHD/reference/HD_Genomics.html</loc></url>
+<url><loc>https://atri-biostats.github.io/HABSHD/reference/HD_Imaging.html</loc></url>
+<url><loc>https://atri-biostats.github.io/HABSHD/reference/HD_labels.html</loc></url>
+<url><loc>https://atri-biostats.github.io/HABSHD/reference/HD_subjinfo.html</loc></url>
+<url><loc>https://atri-biostats.github.io/HABSHD/reference/Variable_Updates_Release.html</loc></url>
+<url><loc>https://atri-biostats.github.io/HABSHD/reference/data_release_date.html</loc></url>
+<url><loc>https://atri-biostats.github.io/HABSHD/reference/data_release_version.html</loc></url>
+<url><loc>https://atri-biostats.github.io/HABSHD/reference/index.html</loc></url>
 </urlset>
+
