@@ -6,8 +6,9 @@ Version: 0.3.6.1
 Authors@R: person("ATRI Biostatistics", email = "biostat_request@atrihub.io",
   role = c("aut", "cre"))
 URL: 
-    https://apps.unthsc.edu/itr/research, 
-    https://github.com/mcdonohue/HABSHD
+    https://apps.unthsc.edu/itr/research,
+    https://atri-biostats.github.io/HABSHD,
+    https://github.com/atri-biostats/HABSHD
 License: https://apps.unthsc.edu/itr/assets/documents/HABS_HD%20DUA.final.pdf
 Encoding: UTF-8
 LazyData: true
