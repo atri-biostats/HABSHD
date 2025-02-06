@@ -38,7 +38,7 @@ pkgFilename <- paste0('HABSHD_', packageVersion('HABSHD'), '.tar.gz')
 
 ## Overview
 
-`HABSHD` is an R package containing data and code to reproduce results from the **The Health & Aging Brain Study: Health Disparities (HABS-HD)** study [@OBryant2021health]. `HABSHD` is a bundle of data, analysis code examples, and html and pdf documentation. The html documentation is viewable at [https://github.com/mcdonohue/HABSHD](https://github.com/mcdonohue/HABSHD). 
+`HABSHD` is an R package containing data and code to reproduce results from the **The Health & Aging Brain Study: Health Disparities (HABS-HD)** study [@OBryant2021health]. `HABSHD` is a bundle of data, analysis code examples, and html and pdf documentation. Documentation can be found at [https://atri-biostats.github.io/HABSHD](https://atri-biostats.github.io/HABSHD)
 
 All data, including the `HABSHD` R package, is avalialable from [https://apps.unthsc.edu/itr/research/](https://apps.unthsc.edu/itr/research/) after registering and agreeing to the [data use agreement](https://apps.unthsc.edu/itr/assets/documents/HABS_HD%20DUA.final.pdf).
 

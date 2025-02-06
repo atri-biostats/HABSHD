@@ -10,8 +10,8 @@
 `HABSHD` is an R package containing data and code to reproduce results
 from the **The Health & Aging Brain Study: Health Disparities
 (HABS-HD)** study (O’Bryant et al. 2021). `HABSHD` is a bundle of data,
-analysis code examples, and html and pdf documentation. The html
-documentation is viewable at <https://github.com/mcdonohue/HABSHD>.
+analysis code examples, and html and pdf documentation. Documentation
+can be found at <https://atri-biostats.github.io/HABSHD>
 
 All data, including the `HABSHD` R package, is avalialable from
 <https://apps.unthsc.edu/itr/research/> after registering and agreeing
