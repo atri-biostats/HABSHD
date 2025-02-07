@@ -23,10 +23,10 @@ agreement](https://apps.unthsc.edu/itr/assets/documents/HABS_HD%20DUA.final.pdf)
 To install `HABSHD`:
 
 - Register at <https://apps.unthsc.edu/itr/research>
-- Download `HABSHD_0.3.6.1.tar.gz` from
+- Download `HABSHD_0.3.6.2.tar.gz` from
   <https://apps.unthsc.edu/itr/research/>
 - In R, run
-  `install.packages("path/to/HABSHD_0.3.6.1.tar.gz", repos = NULL, type = "source")`
+  `install.packages("path/to/HABSHD_0.3.6.2.tar.gz", repos = NULL, type = "source")`
 
 The script to build this R package can be found in
 [tools](https://github.com/mcdonohue/HABSHD/tree/main/tools).
