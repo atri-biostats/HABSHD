@@ -5,15 +5,25 @@ dir.create(file.path('..', 'data'))
 file.remove(file.path('..', 'data', list.files('../data')))
 
 # Store release number and date ----
-data_release_date <- as.Date("2024-12-06")
+data_release_date <- as.Date("2025-02-07")
 data_release_major_version <- "6"
-data_release_version <- "6.1"
+data_release_version <- "6.2"
 NA_STRINGS <- c('-9999', '-8888', '-777777', 'NULL', 'NaT')
 usethis::use_data(data_release_date, overwrite = TRUE)
 usethis::use_data(data_release_version, overwrite = TRUE)
 
 # Read and store xlsx files ----
 xlsx_files <- list.files(paste("Release", data_release_version), pattern = "\\.xlsx$", full.names = TRUE, recursive = TRUE)
+
+## copy change log to inst/extdata ----
+change_log <- grep("Change Log_Release", xlsx_files, value = TRUE)
+dir.create(file.path("..", "inst", "extdata"), recursive = TRUE)
+file.copy(change_log, file.path("..", "inst", "extdata"))
+cat(paste0("# HABSHD\n\n * See `system.file('extdata', '", basename(change_log),
+  "', package = 'HABSHD')` for data change log."), 
+  file = file.path('..', 'NEWS.md'))
+
+xlsx_files <- xlsx_files[!grepl("Change Log_Release", xlsx_files)]
 for (file_name in xlsx_files) {
   df_name <- basename(file_name) %>%
     gsub(pattern = "\\.xlsx$", replacement = "") %>%
@@ -50,6 +60,8 @@ file.remove(file.path('..', 'data', paste0(dictionaries, '.rda')))
 
 HD_Data_Dictionary$Value <- gsub("9.00,Undetermined", "9.00, Undetermined",
   HD_Data_Dictionary$Value) 
+HD_Data_Dictionary$Value <- gsub("SNP Genotypes -{0: Absent}{1: Present)", 
+  "{0, Absent}{1, Present}", HD_Data_Dictionary$Value, fixed = TRUE) 
 
 get_levels <- function(x){
   as.numeric(unlist(lapply(strsplit(unlist(strsplit(subset(
@@ -78,7 +90,10 @@ for (file_name in csv_files) {
   message('Reading ', df_name)
   df <- read_csv(file_name, na = NA_STRINGS)
   for(cc in colnames(df)){
-    dic.sub <- subset(HD_Data_Dictionary, `Main Variable`==cc)
+    dic.sub <- subset(HD_Data_Dictionary, `Main Variable`==cc & !is.na(Value))
+    if(all(dic.sub$Value == dic.sub$Value[1])){
+      dic.sub <- dic.sub[1,]
+    }
     if(nrow(dic.sub)==1){
       if(grepl('{', dic.sub$`Value`, fixed = TRUE)){
         if(length(get_levels(cc)) == length(get_labels(cc)) & !any(is.na(get_levels(cc)))){

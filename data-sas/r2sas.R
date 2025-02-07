@@ -123,6 +123,5 @@ dd <- dd %>%
   rename(Original_Main_Variable = old_name) %>%
   select(Category, Original_Main_Variable, Main_Variable,
     everything())
-write_xpt(dd, 'HD_Data_Dictionary.xpt')
 write_xpt(dd, file.path('HABSHD-SAS-xpt', 'HD_Data_Dictionary.xpt'))
 write_csv(dd, file.path('HABSHD-SAS-csv', 'HD_Data_Dictionary.csv'))
