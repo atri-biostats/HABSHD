@@ -46,6 +46,7 @@
     <li><a class="dropdown-item" href="articles/HABS-HD-Summaries.html">HABS-HD Summaries</a></li>
   </ul>
 </li>
+<li class="nav-item"><a class="nav-link" href="news/index.html">Changelog</a></li>
       </ul>
 <ul class="navbar-nav">
 <li class="nav-item"><form class="form-inline" role="search">
@@ -91,8 +92,14 @@
 <h1 id="baseline-characteristics-tables">Baseline characteristics tables<a class="anchor" aria-label="anchor" href="#baseline-characteristics-tables"></a>
 </h1>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">tableby</span><span class="op">(</span><span class="va">CDX_Cog</span> <span class="op">~</span> <span class="va">.</span> , data <span class="op">=</span> <span class="va">HD_subjinfo</span> <span class="op">%&gt;%</span> </span>
-<span>    <span class="fu">select</span><span class="op">(</span><span class="op">-</span><span class="va">Med_ID</span>, <span class="op">-</span><span class="va">Visit_ID</span>, <span class="op">-</span><span class="va">APOE4_rs429358</span>, <span class="op">-</span><span class="va">APOE4_rs7412</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
+<code class="sourceCode R"><span><span class="fu">tableby</span><span class="op">(</span><span class="va">CDX_Cog</span> <span class="op">~</span> <span class="va">Age</span> <span class="op">+</span> <span class="va">Ethnicity</span> <span class="op">+</span> <span class="va">ID_Hispanic</span> <span class="op">+</span> <span class="va">ID_Race_White</span> <span class="op">+</span> <span class="va">ID_Race_Black</span> <span class="op">+</span> </span>
+<span>    <span class="va">ID_Race_IndianAlaska</span> <span class="op">+</span> <span class="va">ID_Race_Asian</span> <span class="op">+</span> <span class="va">ID_Race_NativeHawaiian</span> <span class="op">+</span> <span class="va">ID_Gender</span> <span class="op">+</span> </span>
+<span>    <span class="va">Interview_Language</span> <span class="op">+</span> <span class="va">ID_Language_Primary</span> <span class="op">+</span> <span class="va">ADI_StateRank</span> <span class="op">+</span> </span>
+<span>    <span class="va">MMSE_Total</span> <span class="op">+</span> <span class="va">Digit_Symbol_Substitution</span> <span class="op">+</span> <span class="va">SEVLT_DR_Total</span> <span class="op">+</span> <span class="va">LM2_AB_Total</span> <span class="op">+</span> <span class="va">Animal_Total</span> <span class="op">+</span> </span>
+<span>    <span class="va">APOE4_Genotype</span> <span class="op">+</span> <span class="va">APOE4_Positivity</span> <span class="op">+</span> <span class="va">`01_AB_FBB_AB_pos`</span> <span class="op">+</span> </span>
+<span>    <span class="va">`01_TAU_PI2620_Medial_Temporal_SUVR`</span> <span class="op">+</span> <span class="va">`01_L_hippocampus`</span> <span class="op">+</span> <span class="va">`01_R_hippocampus`</span> <span class="op">+</span> </span>
+<span>     <span class="va">HPACC</span>, </span>
+<span>  data <span class="op">=</span> <span class="va">HD_subjinfo</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span>labelTranslations <span class="op">=</span> <span class="va">HD_labels</span>, digits <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span></code></pre></div>
 <table style="width:100%;" class="table">
 <colgroup>
@@ -125,20 +132,20 @@
 </tr>
 <tr>
 <td align="left">   Mean (SD)</td>
-<td align="center">64.4 (8.4)</td>
-<td align="center">65.0 (8.8)</td>
-<td align="center">68.7 (10.1)</td>
-<td align="center">59.8 (8.3)</td>
-<td align="center">64.8 (8.6)</td>
+<td align="center">64.9 (8.4)</td>
+<td align="center">65.5 (8.8)</td>
+<td align="center">69.2 (10.1)</td>
+<td align="center">60.3 (8.3)</td>
+<td align="center">65.2 (8.6)</td>
 <td align="right"></td>
 </tr>
 <tr>
 <td align="left">   Range</td>
-<td align="center">50.0 - 92.0</td>
-<td align="center">50.0 - 92.0</td>
-<td align="center">50.0 - 91.0</td>
-<td align="center">50.0 - 74.0</td>
-<td align="center">50.0 - 92.0</td>
+<td align="center">49.9 - 92.8</td>
+<td align="center">49.9 - 92.7</td>
+<td align="center">50.2 - 91.8</td>
+<td align="center">50.9 - 74.8</td>
+<td align="center">49.9 - 92.8</td>
 <td align="right"></td>
 </tr>
 <tr>
@@ -286,42 +293,6 @@
 <td align="right"></td>
 </tr>
 <tr>
-<td align="left"><strong>Race Specify AmerInd Tribe</strong></td>
-<td align="center"></td>
-<td align="center"></td>
-<td align="center"></td>
-<td align="center"></td>
-<td align="center"></td>
-<td align="right"></td>
-</tr>
-<tr>
-<td align="left">   N-Miss</td>
-<td align="center">2787</td>
-<td align="center">803</td>
-<td align="center">236</td>
-<td align="center">12</td>
-<td align="center">3838</td>
-<td align="right"></td>
-</tr>
-<tr>
-<td align="left">   No</td>
-<td align="center">0</td>
-<td align="center">0</td>
-<td align="center">0</td>
-<td align="center">0</td>
-<td align="center">0</td>
-<td align="right"></td>
-</tr>
-<tr>
-<td align="left">   yes</td>
-<td align="center">0</td>
-<td align="center">0</td>
-<td align="center">0</td>
-<td align="center">0</td>
-<td align="center">0</td>
-<td align="right"></td>
-</tr>
-<tr>
 <td align="left"><strong>Race Asian</strong></td>
 <td align="center"></td>
 <td align="center"></td>
@@ -346,123 +317,6 @@
 <td align="center">0 (0.0%)</td>
 <td align="center">0 (0.0%)</td>
 <td align="center">8 (0.2%)</td>
-<td align="right"></td>
-</tr>
-<tr>
-<td align="left"><strong>Race Specify Asian Race</strong></td>
-<td align="center"></td>
-<td align="center"></td>
-<td align="center"></td>
-<td align="center"></td>
-<td align="center"></td>
-<td align="right"></td>
-</tr>
-<tr>
-<td align="left">   N-Miss</td>
-<td align="center">2787</td>
-<td align="center">803</td>
-<td align="center">236</td>
-<td align="center">12</td>
-<td align="center">3838</td>
-<td align="right"></td>
-</tr>
-<tr>
-<td align="left">   No</td>
-<td align="center">0</td>
-<td align="center">0</td>
-<td align="center">0</td>
-<td align="center">0</td>
-<td align="center">0</td>
-<td align="right"></td>
-</tr>
-<tr>
-<td align="left">   yes</td>
-<td align="center">0</td>
-<td align="center">0</td>
-<td align="center">0</td>
-<td align="center">0</td>
-<td align="center">0</td>
-<td align="right"></td>
-</tr>
-<tr>
-<td align="left"><strong>Race Japanese</strong></td>
-<td align="center"></td>
-<td align="center"></td>
-<td align="center"></td>
-<td align="center"></td>
-<td align="center"></td>
-<td align="right">0.945</td>
-</tr>
-<tr>
-<td align="left">   No</td>
-<td align="center">2786 (100.0%)</td>
-<td align="center">803 (100.0%)</td>
-<td align="center">236 (100.0%)</td>
-<td align="center">12 (100.0%)</td>
-<td align="center">3837 (100.0%)</td>
-<td align="right"></td>
-</tr>
-<tr>
-<td align="left">   yes</td>
-<td align="center">1 (0.0%)</td>
-<td align="center">0 (0.0%)</td>
-<td align="center">0 (0.0%)</td>
-<td align="center">0 (0.0%)</td>
-<td align="center">1 (0.0%)</td>
-<td align="right"></td>
-</tr>
-<tr>
-<td align="left"><strong>Race Korean</strong></td>
-<td align="center"></td>
-<td align="center"></td>
-<td align="center"></td>
-<td align="center"></td>
-<td align="center"></td>
-<td align="right">0.945</td>
-</tr>
-<tr>
-<td align="left">   No</td>
-<td align="center">2786 (100.0%)</td>
-<td align="center">803 (100.0%)</td>
-<td align="center">236 (100.0%)</td>
-<td align="center">12 (100.0%)</td>
-<td align="center">3837 (100.0%)</td>
-<td align="right"></td>
-</tr>
-<tr>
-<td align="left">   yes</td>
-<td align="center">1 (0.0%)</td>
-<td align="center">0 (0.0%)</td>
-<td align="center">0 (0.0%)</td>
-<td align="center">0 (0.0%)</td>
-<td align="center">1 (0.0%)</td>
-<td align="right"></td>
-</tr>
-<tr>
-<td align="left"><strong>Race Vietnamese</strong></td>
-<td align="center"></td>
-<td align="center"></td>
-<td align="center"></td>
-<td align="center"></td>
-<td align="center"></td>
-<td align="right"></td>
-</tr>
-<tr>
-<td align="left">   No</td>
-<td align="center">2787 (100.0%)</td>
-<td align="center">803 (100.0%)</td>
-<td align="center">236 (100.0%)</td>
-<td align="center">12 (100.0%)</td>
-<td align="center">3838 (100.0%)</td>
-<td align="right"></td>
-</tr>
-<tr>
-<td align="left">   yes</td>
-<td align="center">0 (0.0%)</td>
-<td align="center">0 (0.0%)</td>
-<td align="center">0 (0.0%)</td>
-<td align="center">0 (0.0%)</td>
-<td align="center">0 (0.0%)</td>
 <td align="right"></td>
 </tr>
 <tr>
@@ -493,222 +347,6 @@
 <td align="right"></td>
 </tr>
 <tr>
-<td align="left"><strong>Race GuamChamorro</strong></td>
-<td align="center"></td>
-<td align="center"></td>
-<td align="center"></td>
-<td align="center"></td>
-<td align="center"></td>
-<td align="right"></td>
-</tr>
-<tr>
-<td align="left">   No</td>
-<td align="center">2787 (100.0%)</td>
-<td align="center">803 (100.0%)</td>
-<td align="center">236 (100.0%)</td>
-<td align="center">12 (100.0%)</td>
-<td align="center">3838 (100.0%)</td>
-<td align="right"></td>
-</tr>
-<tr>
-<td align="left">   yes</td>
-<td align="center">0 (0.0%)</td>
-<td align="center">0 (0.0%)</td>
-<td align="center">0 (0.0%)</td>
-<td align="center">0 (0.0%)</td>
-<td align="center">0 (0.0%)</td>
-<td align="right"></td>
-</tr>
-<tr>
-<td align="left"><strong>Race Samoan</strong></td>
-<td align="center"></td>
-<td align="center"></td>
-<td align="center"></td>
-<td align="center"></td>
-<td align="center"></td>
-<td align="right"></td>
-</tr>
-<tr>
-<td align="left">   No</td>
-<td align="center">2787 (100.0%)</td>
-<td align="center">803 (100.0%)</td>
-<td align="center">236 (100.0%)</td>
-<td align="center">12 (100.0%)</td>
-<td align="center">3838 (100.0%)</td>
-<td align="right"></td>
-</tr>
-<tr>
-<td align="left">   yes</td>
-<td align="center">0 (0.0%)</td>
-<td align="center">0 (0.0%)</td>
-<td align="center">0 (0.0%)</td>
-<td align="center">0 (0.0%)</td>
-<td align="center">0 (0.0%)</td>
-<td align="right"></td>
-</tr>
-<tr>
-<td align="left"><strong>Race OtherPacific</strong></td>
-<td align="center"></td>
-<td align="center"></td>
-<td align="center"></td>
-<td align="center"></td>
-<td align="center"></td>
-<td align="right">0.860</td>
-</tr>
-<tr>
-<td align="left">   N-Miss</td>
-<td align="center">9</td>
-<td align="center">0</td>
-<td align="center">2</td>
-<td align="center">0</td>
-<td align="center">11</td>
-<td align="right"></td>
-</tr>
-<tr>
-<td align="left">   Mean (SD)</td>
-<td align="center">0.0 (0.0)</td>
-<td align="center">0.0 (0.0)</td>
-<td align="center">0.0 (0.0)</td>
-<td align="center">0.0 (0.0)</td>
-<td align="center">0.0 (0.0)</td>
-<td align="right"></td>
-</tr>
-<tr>
-<td align="left">   Range</td>
-<td align="center">0.0 - 1.0</td>
-<td align="center">0.0 - 0.0</td>
-<td align="center">0.0 - 0.0</td>
-<td align="center">0.0 - 0.0</td>
-<td align="center">0.0 - 1.0</td>
-<td align="right"></td>
-</tr>
-<tr>
-<td align="left"><strong>Race Specify OtherPacific Race</strong></td>
-<td align="center"></td>
-<td align="center"></td>
-<td align="center"></td>
-<td align="center"></td>
-<td align="center"></td>
-<td align="right"></td>
-</tr>
-<tr>
-<td align="left">   N-Miss</td>
-<td align="center">2787</td>
-<td align="center">803</td>
-<td align="center">236</td>
-<td align="center">12</td>
-<td align="center">3838</td>
-<td align="right"></td>
-</tr>
-<tr>
-<td align="left">   FALSE</td>
-<td align="center">0</td>
-<td align="center">0</td>
-<td align="center">0</td>
-<td align="center">0</td>
-<td align="center">0</td>
-<td align="right"></td>
-</tr>
-<tr>
-<td align="left">   TRUE</td>
-<td align="center">0</td>
-<td align="center">0</td>
-<td align="center">0</td>
-<td align="center">0</td>
-<td align="center">0</td>
-<td align="right"></td>
-</tr>
-<tr>
-<td align="left"><strong>Race Other</strong></td>
-<td align="center"></td>
-<td align="center"></td>
-<td align="center"></td>
-<td align="center"></td>
-<td align="center"></td>
-<td align="right">0.233</td>
-</tr>
-<tr>
-<td align="left">   N-Miss</td>
-<td align="center">0</td>
-<td align="center">0</td>
-<td align="center">1</td>
-<td align="center">0</td>
-<td align="center">1</td>
-<td align="right"></td>
-</tr>
-<tr>
-<td align="left">   Mean (SD)</td>
-<td align="center">0.0 (0.0)</td>
-<td align="center">0.0 (0.0)</td>
-<td align="center">0.0 (0.1)</td>
-<td align="center">0.0 (0.0)</td>
-<td align="center">0.0 (0.0)</td>
-<td align="right"></td>
-</tr>
-<tr>
-<td align="left">   Range</td>
-<td align="center">0.0 - 1.0</td>
-<td align="center">0.0 - 0.0</td>
-<td align="center">0.0 - 1.0</td>
-<td align="center">0.0 - 0.0</td>
-<td align="center">0.0 - 1.0</td>
-<td align="right"></td>
-</tr>
-<tr>
-<td align="left"><strong>Race Specify</strong></td>
-<td align="center"></td>
-<td align="center"></td>
-<td align="center"></td>
-<td align="center"></td>
-<td align="center"></td>
-<td align="right"></td>
-</tr>
-<tr>
-<td align="left">   N-Miss</td>
-<td align="center">2784</td>
-<td align="center">803</td>
-<td align="center">235</td>
-<td align="center">12</td>
-<td align="center">3834</td>
-<td align="right"></td>
-</tr>
-<tr>
-<td align="left">   Iranian, Indo-European</td>
-<td align="center">0 (0.0%)</td>
-<td align="center">0</td>
-<td align="center">1 (100.0%)</td>
-<td align="center">0</td>
-<td align="center">1 (25.0%)</td>
-<td align="right"></td>
-</tr>
-<tr>
-<td align="left">   mexicana</td>
-<td align="center">1 (33.3%)</td>
-<td align="center">0</td>
-<td align="center">0 (0.0%)</td>
-<td align="center">0</td>
-<td align="center">1 (25.0%)</td>
-<td align="right"></td>
-</tr>
-<tr>
-<td align="left">   Meztizo</td>
-<td align="center">1 (33.3%)</td>
-<td align="center">0</td>
-<td align="center">0 (0.0%)</td>
-<td align="center">0</td>
-<td align="center">1 (25.0%)</td>
-<td align="right"></td>
-</tr>
-<tr>
-<td align="left">   Native American</td>
-<td align="center">1 (33.3%)</td>
-<td align="center">0</td>
-<td align="center">0 (0.0%)</td>
-<td align="center">0</td>
-<td align="center">1 (25.0%)</td>
-<td align="right"></td>
-</tr>
-<tr>
 <td align="left"><strong>Gender</strong></td>
 <td align="center"></td>
 <td align="center"></td>
@@ -718,21 +356,21 @@
 <td align="right">&lt; 0.001</td>
 </tr>
 <tr>
-<td align="left">   Mean (SD)</td>
-<td align="center">0.7 (0.5)</td>
-<td align="center">0.5 (0.5)</td>
-<td align="center">0.5 (0.5)</td>
-<td align="center">0.7 (0.5)</td>
-<td align="center">0.6 (0.5)</td>
+<td align="left">   male</td>
+<td align="center">954 (34.2%)</td>
+<td align="center">382 (47.6%)</td>
+<td align="center">119 (50.4%)</td>
+<td align="center">4 (33.3%)</td>
+<td align="center">1459 (38.0%)</td>
 <td align="right"></td>
 </tr>
 <tr>
-<td align="left">   Range</td>
-<td align="center">0.0 - 1.0</td>
-<td align="center">0.0 - 1.0</td>
-<td align="center">0.0 - 1.0</td>
-<td align="center">0.0 - 1.0</td>
-<td align="center">0.0 - 1.0</td>
+<td align="left">   female</td>
+<td align="center">1833 (65.8%)</td>
+<td align="center">421 (52.4%)</td>
+<td align="center">117 (49.6%)</td>
+<td align="center">8 (66.7%)</td>
+<td align="center">2379 (62.0%)</td>
 <td align="right"></td>
 </tr>
 <tr>
@@ -1114,21 +752,21 @@
 <td align="right"></td>
 </tr>
 <tr>
-<td align="left">   Mean (SD)</td>
-<td align="center">0.3 (0.4)</td>
-<td align="center">0.3 (0.5)</td>
-<td align="center">0.4 (0.5)</td>
-<td align="center">0.2 (0.4)</td>
-<td align="center">0.3 (0.5)</td>
+<td align="left">   Absent</td>
+<td align="center">1770 (72.7%)</td>
+<td align="center">488 (70.5%)</td>
+<td align="center">118 (56.2%)</td>
+<td align="center">4 (80.0%)</td>
+<td align="center">2380 (71.2%)</td>
 <td align="right"></td>
 </tr>
 <tr>
-<td align="left">   Range</td>
-<td align="center">0.0 - 1.0</td>
-<td align="center">0.0 - 1.0</td>
-<td align="center">0.0 - 1.0</td>
-<td align="center">0.0 - 1.0</td>
-<td align="center">0.0 - 1.0</td>
+<td align="left">   Present</td>
+<td align="center">666 (27.3%)</td>
+<td align="center">204 (29.5%)</td>
+<td align="center">92 (43.8%)</td>
+<td align="center">1 (20.0%)</td>
+<td align="center">963 (28.8%)</td>
 <td align="right"></td>
 </tr>
 <tr>
@@ -1276,294 +914,6 @@
 <td align="right"></td>
 </tr>
 <tr>
-<td align="left"><strong>ICV HD</strong></td>
-<td align="center"></td>
-<td align="center"></td>
-<td align="center"></td>
-<td align="center"></td>
-<td align="center"></td>
-<td align="right">0.539</td>
-</tr>
-<tr>
-<td align="left">   N-Miss</td>
-<td align="center">194</td>
-<td align="center">68</td>
-<td align="center">9</td>
-<td align="center">4</td>
-<td align="center">275</td>
-<td align="right"></td>
-</tr>
-<tr>
-<td align="left">   Mean (SD)</td>
-<td align="center">1417218.0 (138002.6)</td>
-<td align="center">1424440.3 (149946.3)</td>
-<td align="center">1426724.6 (151697.7)</td>
-<td align="center">1416410.6 (61563.6)</td>
-<td align="center">1419311.7 (141319.7)</td>
-<td align="right"></td>
-</tr>
-<tr>
-<td align="left">   Range</td>
-<td align="center">1029783.2 - 1979485.0</td>
-<td align="center">1040497.2 - 1885733.6</td>
-<td align="center">1042479.9 - 1964078.0</td>
-<td align="center">1351896.0 - 1531047.0</td>
-<td align="center">1029783.2 - 1979485.0</td>
-<td align="right"></td>
-</tr>
-<tr>
-<td align="left"><strong>WMH Volume Raw</strong></td>
-<td align="center"></td>
-<td align="center"></td>
-<td align="center"></td>
-<td align="center"></td>
-<td align="center"></td>
-<td align="right">&lt; 0.001</td>
-</tr>
-<tr>
-<td align="left">   N-Miss</td>
-<td align="center">155</td>
-<td align="center">70</td>
-<td align="center">18</td>
-<td align="center">0</td>
-<td align="center">243</td>
-<td align="right"></td>
-</tr>
-<tr>
-<td align="left">   Mean (SD)</td>
-<td align="center">4.6 (31.6)</td>
-<td align="center">8.3 (50.5)</td>
-<td align="center">17.8 (94.8)</td>
-<td align="center">4.5 (7.1)</td>
-<td align="center">6.1 (42.5)</td>
-<td align="right"></td>
-</tr>
-<tr>
-<td align="left">   Range</td>
-<td align="center">0.0 - 785.8</td>
-<td align="center">0.0 - 832.4</td>
-<td align="center">0.0 - 1056.5</td>
-<td align="center">0.1 - 24.8</td>
-<td align="center">0.0 - 1056.5</td>
-<td align="right"></td>
-</tr>
-<tr>
-<td align="left"><strong>WMH Volume Log</strong></td>
-<td align="center"></td>
-<td align="center"></td>
-<td align="center"></td>
-<td align="center"></td>
-<td align="center"></td>
-<td align="right">&lt; 0.001</td>
-</tr>
-<tr>
-<td align="left">   N-Miss</td>
-<td align="center">156</td>
-<td align="center">70</td>
-<td align="center">19</td>
-<td align="center">0</td>
-<td align="center">245</td>
-<td align="right"></td>
-</tr>
-<tr>
-<td align="left">   Mean (SD)</td>
-<td align="center">0.3 (0.7)</td>
-<td align="center">0.4 (0.9)</td>
-<td align="center">0.6 (1.1)</td>
-<td align="center">1.2 (0.9)</td>
-<td align="center">0.3 (0.7)</td>
-<td align="right"></td>
-</tr>
-<tr>
-<td align="left">   Range</td>
-<td align="center">0.0 - 6.7</td>
-<td align="center">0.0 - 5.9</td>
-<td align="center">0.0 - 7.0</td>
-<td align="center">0.1 - 3.3</td>
-<td align="center">0.0 - 7.0</td>
-<td align="right"></td>
-</tr>
-<tr>
-<td align="left"><strong>Animal Total Z</strong></td>
-<td align="center"></td>
-<td align="center"></td>
-<td align="center"></td>
-<td align="center"></td>
-<td align="center"></td>
-<td align="right">&lt; 0.001</td>
-</tr>
-<tr>
-<td align="left">   N-Miss</td>
-<td align="center">1</td>
-<td align="center">0</td>
-<td align="center">1</td>
-<td align="center">0</td>
-<td align="center">2</td>
-<td align="right"></td>
-</tr>
-<tr>
-<td align="left">   Mean (SD)</td>
-<td align="center">0.0 (1.0)</td>
-<td align="center">-0.7 (1.0)</td>
-<td align="center">-1.9 (1.1)</td>
-<td align="center">-1.2 (1.2)</td>
-<td align="center">-0.3 (1.1)</td>
-<td align="right"></td>
-</tr>
-<tr>
-<td align="left">   Range</td>
-<td align="center">-3.6 - 5.7</td>
-<td align="center">-4.0 - 3.8</td>
-<td align="center">-4.0 - 1.1</td>
-<td align="center">-2.9 - 0.9</td>
-<td align="center">-4.0 - 5.7</td>
-<td align="right"></td>
-</tr>
-<tr>
-<td align="left"><strong>Digit Symbol Substitution Z</strong></td>
-<td align="center"></td>
-<td align="center"></td>
-<td align="center"></td>
-<td align="center"></td>
-<td align="center"></td>
-<td align="right">&lt; 0.001</td>
-</tr>
-<tr>
-<td align="left">   N-Miss</td>
-<td align="center">4</td>
-<td align="center">7</td>
-<td align="center">24</td>
-<td align="center">0</td>
-<td align="center">35</td>
-<td align="right"></td>
-</tr>
-<tr>
-<td align="left">   Mean (SD)</td>
-<td align="center">-0.0 (1.0)</td>
-<td align="center">-0.7 (1.0)</td>
-<td align="center">-1.8 (1.0)</td>
-<td align="center">-1.4 (1.2)</td>
-<td align="center">-0.3 (1.1)</td>
-<td align="right"></td>
-</tr>
-<tr>
-<td align="left">   Range</td>
-<td align="center">-3.3 - 3.7</td>
-<td align="center">-3.6 - 2.1</td>
-<td align="center">-3.7 - 1.5</td>
-<td align="center">-3.4 - 1.2</td>
-<td align="center">-3.7 - 3.7</td>
-<td align="right"></td>
-</tr>
-<tr>
-<td align="left"><strong>LM2 AB Total Z</strong></td>
-<td align="center"></td>
-<td align="center"></td>
-<td align="center"></td>
-<td align="center"></td>
-<td align="center"></td>
-<td align="right">&lt; 0.001</td>
-</tr>
-<tr>
-<td align="left">   N-Miss</td>
-<td align="center">3</td>
-<td align="center">1</td>
-<td align="center">1</td>
-<td align="center">0</td>
-<td align="center">5</td>
-<td align="right"></td>
-</tr>
-<tr>
-<td align="left">   Mean (SD)</td>
-<td align="center">0.0 (1.0)</td>
-<td align="center">-1.1 (1.0)</td>
-<td align="center">-2.3 (0.9)</td>
-<td align="center">-1.9 (0.6)</td>
-<td align="center">-0.4 (1.2)</td>
-<td align="right"></td>
-</tr>
-<tr>
-<td align="left">   Range</td>
-<td align="center">-3.0 - 2.8</td>
-<td align="center">-3.2 - 2.0</td>
-<td align="center">-3.2 - 2.3</td>
-<td align="center">-2.9 - -0.7</td>
-<td align="center">-3.2 - 2.8</td>
-<td align="right"></td>
-</tr>
-<tr>
-<td align="left"><strong>MMSE Total Z</strong></td>
-<td align="center"></td>
-<td align="center"></td>
-<td align="center"></td>
-<td align="center"></td>
-<td align="center"></td>
-<td align="right">&lt; 0.001</td>
-</tr>
-<tr>
-<td align="left">   N-Miss</td>
-<td align="center">13</td>
-<td align="center">7</td>
-<td align="center">2</td>
-<td align="center">0</td>
-<td align="center">22</td>
-<td align="right"></td>
-</tr>
-<tr>
-<td align="left">   Mean (SD)</td>
-<td align="center">-0.0 (1.0)</td>
-<td align="center">-0.7 (1.4)</td>
-<td align="center">-3.2 (2.8)</td>
-<td align="center">-2.1 (2.7)</td>
-<td align="center">-0.4 (1.5)</td>
-<td align="right"></td>
-</tr>
-<tr>
-<td align="left">   Range</td>
-<td align="center">-6.2 - 0.9</td>
-<td align="center">-7.6 - 0.9</td>
-<td align="center">-12.3 - 0.9</td>
-<td align="center">-9.0 - 0.9</td>
-<td align="center">-12.3 - 0.9</td>
-<td align="right"></td>
-</tr>
-<tr>
-<td align="left"><strong>SEVLT DR Total Z</strong></td>
-<td align="center"></td>
-<td align="center"></td>
-<td align="center"></td>
-<td align="center"></td>
-<td align="center"></td>
-<td align="right">&lt; 0.001</td>
-</tr>
-<tr>
-<td align="left">   N-Miss</td>
-<td align="center">9</td>
-<td align="center">5</td>
-<td align="center">11</td>
-<td align="center">0</td>
-<td align="center">25</td>
-<td align="right"></td>
-</tr>
-<tr>
-<td align="left">   Mean (SD)</td>
-<td align="center">-0.0 (1.0)</td>
-<td align="center">-1.3 (1.1)</td>
-<td align="center">-2.4 (0.8)</td>
-<td align="center">-1.4 (1.0)</td>
-<td align="center">-0.4 (1.3)</td>
-<td align="right"></td>
-</tr>
-<tr>
-<td align="left">   Range</td>
-<td align="center">-3.0 - 2.3</td>
-<td align="center">-3.0 - 1.9</td>
-<td align="center">-3.0 - 0.5</td>
-<td align="center">-3.0 - -0.2</td>
-<td align="center">-3.0 - 2.3</td>
-<td align="right"></td>
-</tr>
-<tr>
 <td align="left"><strong>HPACC</strong></td>
 <td align="center"></td>
 <td align="center"></td>
@@ -1599,129 +949,18 @@
 <td align="center">-24.2 - 11.9</td>
 <td align="right"></td>
 </tr>
-<tr>
-<td align="left"><strong>HPACC NA</strong></td>
-<td align="center"></td>
-<td align="center"></td>
-<td align="center"></td>
-<td align="center"></td>
-<td align="center"></td>
-<td align="right">&lt; 0.001</td>
-</tr>
-<tr>
-<td align="left">   Mean (SD)</td>
-<td align="center">0.0 (0.1)</td>
-<td align="center">0.0 (0.2)</td>
-<td align="center">0.2 (0.5)</td>
-<td align="center">0.0 (0.0)</td>
-<td align="center">0.0 (0.2)</td>
-<td align="right"></td>
-</tr>
-<tr>
-<td align="left">   Range</td>
-<td align="center">0.0 - 2.0</td>
-<td align="center">0.0 - 2.0</td>
-<td align="center">0.0 - 4.0</td>
-<td align="center">0.0 - 0.0</td>
-<td align="center">0.0 - 4.0</td>
-<td align="right"></td>
-</tr>
-<tr>
-<td align="left"><strong>HPACC NAsum</strong></td>
-<td align="center"></td>
-<td align="center"></td>
-<td align="center"></td>
-<td align="center"></td>
-<td align="center"></td>
-<td align="right">&lt; 0.001</td>
-</tr>
-<tr>
-<td align="left">   Mean (SD)</td>
-<td align="center">-0.0 (3.6)</td>
-<td align="center">-4.6 (3.7)</td>
-<td align="center">-11.4 (5.0)</td>
-<td align="center">-8.0 (5.2)</td>
-<td align="center">-1.7 (4.9)</td>
-<td align="right"></td>
-</tr>
-<tr>
-<td align="left">   Range</td>
-<td align="center">-13.5 - 11.9</td>
-<td align="center">-17.6 - 6.0</td>
-<td align="center">-24.2 - 0.6</td>
-<td align="center">-21.1 - -1.8</td>
-<td align="center">-24.2 - 11.9</td>
-<td align="right"></td>
-</tr>
-<tr>
-<td align="left"><strong>HPACC Prorated</strong></td>
-<td align="center"></td>
-<td align="center"></td>
-<td align="center"></td>
-<td align="center"></td>
-<td align="center"></td>
-<td align="right">&lt; 0.001</td>
-</tr>
-<tr>
-<td align="left">   N-Miss</td>
-<td align="center">0</td>
-<td align="center">0</td>
-<td align="center">1</td>
-<td align="center">0</td>
-<td align="center">1</td>
-<td align="right"></td>
-</tr>
-<tr>
-<td align="left">   Mean (SD)</td>
-<td align="center">-0.0 (3.6)</td>
-<td align="center">-4.7 (3.7)</td>
-<td align="center">-12.0 (5.6)</td>
-<td align="center">-8.0 (5.2)</td>
-<td align="center">-1.7 (5.0)</td>
-<td align="right"></td>
-</tr>
-<tr>
-<td align="left">   Range</td>
-<td align="center">-14.2 - 11.9</td>
-<td align="center">-17.6 - 6.0</td>
-<td align="center">-28.1 - 0.6</td>
-<td align="center">-21.1 - -1.8</td>
-<td align="center">-28.1 - 11.9</td>
-<td align="right"></td>
-</tr>
-<tr>
-<td align="left"><strong>-HPACC NAsum</strong></td>
-<td align="center"></td>
-<td align="center"></td>
-<td align="center"></td>
-<td align="center"></td>
-<td align="center"></td>
-<td align="right">&lt; 0.001</td>
-</tr>
-<tr>
-<td align="left">   Mean (SD)</td>
-<td align="center">0.0 (3.6)</td>
-<td align="center">4.6 (3.7)</td>
-<td align="center">11.4 (5.0)</td>
-<td align="center">8.0 (5.2)</td>
-<td align="center">1.7 (4.9)</td>
-<td align="right"></td>
-</tr>
-<tr>
-<td align="left">   Range</td>
-<td align="center">-11.9 - 13.5</td>
-<td align="center">-6.0 - 17.6</td>
-<td align="center">-0.6 - 24.2</td>
-<td align="center">1.8 - 21.1</td>
-<td align="center">-11.9 - 24.2</td>
-<td align="right"></td>
-</tr>
 </tbody>
 </table>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
-<span><span class="fu">tableby</span><span class="op">(</span><span class="va">Ethnicity</span> <span class="op">~</span> <span class="va">.</span> , data <span class="op">=</span> <span class="va">HD_subjinfo</span> <span class="op">%&gt;%</span> </span>
-<span>    <span class="fu">select</span><span class="op">(</span><span class="op">-</span><span class="va">Med_ID</span>, <span class="op">-</span><span class="va">Visit_ID</span>, <span class="op">-</span><span class="va">APOE4_rs429358</span>, <span class="op">-</span><span class="va">APOE4_rs7412</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
+<span><span class="fu">tableby</span><span class="op">(</span><span class="va">Ethnicity</span> <span class="op">~</span> <span class="va">CDX_Cog</span> <span class="op">+</span> <span class="va">Age</span> <span class="op">+</span> <span class="va">ID_Hispanic</span> <span class="op">+</span> <span class="va">ID_Race_White</span> <span class="op">+</span> <span class="va">ID_Race_Black</span> <span class="op">+</span> </span>
+<span>    <span class="va">ID_Race_IndianAlaska</span> <span class="op">+</span> <span class="va">ID_Race_Asian</span> <span class="op">+</span> <span class="va">ID_Race_NativeHawaiian</span> <span class="op">+</span> <span class="va">ID_Gender</span> <span class="op">+</span> </span>
+<span>    <span class="va">Interview_Language</span> <span class="op">+</span> <span class="va">ID_Language_Primary</span> <span class="op">+</span> <span class="va">ADI_StateRank</span> <span class="op">+</span> </span>
+<span>    <span class="va">MMSE_Total</span> <span class="op">+</span> <span class="va">Digit_Symbol_Substitution</span> <span class="op">+</span> <span class="va">SEVLT_DR_Total</span> <span class="op">+</span> <span class="va">LM2_AB_Total</span> <span class="op">+</span> <span class="va">Animal_Total</span> <span class="op">+</span> </span>
+<span>    <span class="va">APOE4_Genotype</span> <span class="op">+</span> <span class="va">APOE4_Positivity</span> <span class="op">+</span> <span class="va">`01_AB_FBB_AB_pos`</span> <span class="op">+</span> </span>
+<span>    <span class="va">`01_TAU_PI2620_Medial_Temporal_SUVR`</span> <span class="op">+</span> <span class="va">`01_L_hippocampus`</span> <span class="op">+</span> <span class="va">`01_R_hippocampus`</span> <span class="op">+</span> </span>
+<span>     <span class="va">HPACC</span>, </span>
+<span>  data <span class="op">=</span> <span class="va">HD_subjinfo</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span>labelTranslations <span class="op">=</span> <span class="va">HD_labels</span>, digits <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span></code></pre></div>
 <table style="width:100%;" class="table">
 <colgroup>
@@ -1791,18 +1030,18 @@
 </tr>
 <tr>
 <td align="left">   Mean (SD)</td>
-<td align="center">63.0 (7.8)</td>
-<td align="center">62.8 (8.1)</td>
-<td align="center">68.4 (8.7)</td>
-<td align="center">64.8 (8.6)</td>
+<td align="center">63.4 (7.8)</td>
+<td align="center">63.3 (8.1)</td>
+<td align="center">68.8 (8.7)</td>
+<td align="center">65.2 (8.6)</td>
 <td align="right"></td>
 </tr>
 <tr>
 <td align="left">   Range</td>
-<td align="center">50.0 - 92.0</td>
-<td align="center">50.0 - 91.0</td>
-<td align="center">50.0 - 92.0</td>
-<td align="center">50.0 - 92.0</td>
+<td align="center">50.0 - 92.8</td>
+<td align="center">49.9 - 91.2</td>
+<td align="center">50.0 - 92.7</td>
+<td align="center">49.9 - 92.8</td>
 <td align="right"></td>
 </tr>
 <tr>
@@ -1902,38 +1141,6 @@
 <td align="right"></td>
 </tr>
 <tr>
-<td align="left"><strong>Race Specify AmerInd Tribe</strong></td>
-<td align="center"></td>
-<td align="center"></td>
-<td align="center"></td>
-<td align="center"></td>
-<td align="right"></td>
-</tr>
-<tr>
-<td align="left">   N-Miss</td>
-<td align="center">1065</td>
-<td align="center">1425</td>
-<td align="center">1348</td>
-<td align="center">3838</td>
-<td align="right"></td>
-</tr>
-<tr>
-<td align="left">   No</td>
-<td align="center">0</td>
-<td align="center">0</td>
-<td align="center">0</td>
-<td align="center">0</td>
-<td align="right"></td>
-</tr>
-<tr>
-<td align="left">   yes</td>
-<td align="center">0</td>
-<td align="center">0</td>
-<td align="center">0</td>
-<td align="center">0</td>
-<td align="right"></td>
-</tr>
-<tr>
 <td align="left"><strong>Race Asian</strong></td>
 <td align="center"></td>
 <td align="center"></td>
@@ -1955,110 +1162,6 @@
 <td align="center">3 (0.2%)</td>
 <td align="center">3 (0.2%)</td>
 <td align="center">8 (0.2%)</td>
-<td align="right"></td>
-</tr>
-<tr>
-<td align="left"><strong>Race Specify Asian Race</strong></td>
-<td align="center"></td>
-<td align="center"></td>
-<td align="center"></td>
-<td align="center"></td>
-<td align="right"></td>
-</tr>
-<tr>
-<td align="left">   N-Miss</td>
-<td align="center">1065</td>
-<td align="center">1425</td>
-<td align="center">1348</td>
-<td align="center">3838</td>
-<td align="right"></td>
-</tr>
-<tr>
-<td align="left">   No</td>
-<td align="center">0</td>
-<td align="center">0</td>
-<td align="center">0</td>
-<td align="center">0</td>
-<td align="right"></td>
-</tr>
-<tr>
-<td align="left">   yes</td>
-<td align="center">0</td>
-<td align="center">0</td>
-<td align="center">0</td>
-<td align="center">0</td>
-<td align="right"></td>
-</tr>
-<tr>
-<td align="left"><strong>Race Japanese</strong></td>
-<td align="center"></td>
-<td align="center"></td>
-<td align="center"></td>
-<td align="center"></td>
-<td align="right">0.397</td>
-</tr>
-<tr>
-<td align="left">   No</td>
-<td align="center">1065 (100.0%)</td>
-<td align="center">1425 (100.0%)</td>
-<td align="center">1347 (99.9%)</td>
-<td align="center">3837 (100.0%)</td>
-<td align="right"></td>
-</tr>
-<tr>
-<td align="left">   yes</td>
-<td align="center">0 (0.0%)</td>
-<td align="center">0 (0.0%)</td>
-<td align="center">1 (0.1%)</td>
-<td align="center">1 (0.0%)</td>
-<td align="right"></td>
-</tr>
-<tr>
-<td align="left"><strong>Race Korean</strong></td>
-<td align="center"></td>
-<td align="center"></td>
-<td align="center"></td>
-<td align="center"></td>
-<td align="right">0.397</td>
-</tr>
-<tr>
-<td align="left">   No</td>
-<td align="center">1065 (100.0%)</td>
-<td align="center">1425 (100.0%)</td>
-<td align="center">1347 (99.9%)</td>
-<td align="center">3837 (100.0%)</td>
-<td align="right"></td>
-</tr>
-<tr>
-<td align="left">   yes</td>
-<td align="center">0 (0.0%)</td>
-<td align="center">0 (0.0%)</td>
-<td align="center">1 (0.1%)</td>
-<td align="center">1 (0.0%)</td>
-<td align="right"></td>
-</tr>
-<tr>
-<td align="left"><strong>Race Vietnamese</strong></td>
-<td align="center"></td>
-<td align="center"></td>
-<td align="center"></td>
-<td align="center"></td>
-<td align="right"></td>
-</tr>
-<tr>
-<td align="left">   No</td>
-<td align="center">1065 (100.0%)</td>
-<td align="center">1425 (100.0%)</td>
-<td align="center">1348 (100.0%)</td>
-<td align="center">3838 (100.0%)</td>
-<td align="right"></td>
-</tr>
-<tr>
-<td align="left">   yes</td>
-<td align="center">0 (0.0%)</td>
-<td align="center">0 (0.0%)</td>
-<td align="center">0 (0.0%)</td>
-<td align="center">0 (0.0%)</td>
 <td align="right"></td>
 </tr>
 <tr>
@@ -2086,198 +1189,6 @@
 <td align="right"></td>
 </tr>
 <tr>
-<td align="left"><strong>Race GuamChamorro</strong></td>
-<td align="center"></td>
-<td align="center"></td>
-<td align="center"></td>
-<td align="center"></td>
-<td align="right"></td>
-</tr>
-<tr>
-<td align="left">   No</td>
-<td align="center">1065 (100.0%)</td>
-<td align="center">1425 (100.0%)</td>
-<td align="center">1348 (100.0%)</td>
-<td align="center">3838 (100.0%)</td>
-<td align="right"></td>
-</tr>
-<tr>
-<td align="left">   yes</td>
-<td align="center">0 (0.0%)</td>
-<td align="center">0 (0.0%)</td>
-<td align="center">0 (0.0%)</td>
-<td align="center">0 (0.0%)</td>
-<td align="right"></td>
-</tr>
-<tr>
-<td align="left"><strong>Race Samoan</strong></td>
-<td align="center"></td>
-<td align="center"></td>
-<td align="center"></td>
-<td align="center"></td>
-<td align="right"></td>
-</tr>
-<tr>
-<td align="left">   No</td>
-<td align="center">1065 (100.0%)</td>
-<td align="center">1425 (100.0%)</td>
-<td align="center">1348 (100.0%)</td>
-<td align="center">3838 (100.0%)</td>
-<td align="right"></td>
-</tr>
-<tr>
-<td align="left">   yes</td>
-<td align="center">0 (0.0%)</td>
-<td align="center">0 (0.0%)</td>
-<td align="center">0 (0.0%)</td>
-<td align="center">0 (0.0%)</td>
-<td align="right"></td>
-</tr>
-<tr>
-<td align="left"><strong>Race OtherPacific</strong></td>
-<td align="center"></td>
-<td align="center"></td>
-<td align="center"></td>
-<td align="center"></td>
-<td align="right">0.158</td>
-</tr>
-<tr>
-<td align="left">   N-Miss</td>
-<td align="center">0</td>
-<td align="center">7</td>
-<td align="center">4</td>
-<td align="center">11</td>
-<td align="right"></td>
-</tr>
-<tr>
-<td align="left">   Mean (SD)</td>
-<td align="center">0.0 (0.0)</td>
-<td align="center">0.0 (0.0)</td>
-<td align="center">0.0 (0.0)</td>
-<td align="center">0.0 (0.0)</td>
-<td align="right"></td>
-</tr>
-<tr>
-<td align="left">   Range</td>
-<td align="center">0.0 - 0.0</td>
-<td align="center">0.0 - 0.0</td>
-<td align="center">0.0 - 1.0</td>
-<td align="center">0.0 - 1.0</td>
-<td align="right"></td>
-</tr>
-<tr>
-<td align="left"><strong>Race Specify OtherPacific Race</strong></td>
-<td align="center"></td>
-<td align="center"></td>
-<td align="center"></td>
-<td align="center"></td>
-<td align="right"></td>
-</tr>
-<tr>
-<td align="left">   N-Miss</td>
-<td align="center">1065</td>
-<td align="center">1425</td>
-<td align="center">1348</td>
-<td align="center">3838</td>
-<td align="right"></td>
-</tr>
-<tr>
-<td align="left">   FALSE</td>
-<td align="center">0</td>
-<td align="center">0</td>
-<td align="center">0</td>
-<td align="center">0</td>
-<td align="right"></td>
-</tr>
-<tr>
-<td align="left">   TRUE</td>
-<td align="center">0</td>
-<td align="center">0</td>
-<td align="center">0</td>
-<td align="center">0</td>
-<td align="right"></td>
-</tr>
-<tr>
-<td align="left"><strong>Race Other</strong></td>
-<td align="center"></td>
-<td align="center"></td>
-<td align="center"></td>
-<td align="center"></td>
-<td align="right">0.463</td>
-</tr>
-<tr>
-<td align="left">   N-Miss</td>
-<td align="center">0</td>
-<td align="center">0</td>
-<td align="center">1</td>
-<td align="center">1</td>
-<td align="right"></td>
-</tr>
-<tr>
-<td align="left">   Mean (SD)</td>
-<td align="center">0.0 (0.0)</td>
-<td align="center">0.0 (0.0)</td>
-<td align="center">0.0 (0.0)</td>
-<td align="center">0.0 (0.0)</td>
-<td align="right"></td>
-</tr>
-<tr>
-<td align="left">   Range</td>
-<td align="center">0.0 - 0.0</td>
-<td align="center">0.0 - 1.0</td>
-<td align="center">0.0 - 1.0</td>
-<td align="center">0.0 - 1.0</td>
-<td align="right"></td>
-</tr>
-<tr>
-<td align="left"><strong>Race Specify</strong></td>
-<td align="center"></td>
-<td align="center"></td>
-<td align="center"></td>
-<td align="center"></td>
-<td align="right"></td>
-</tr>
-<tr>
-<td align="left">   N-Miss</td>
-<td align="center">1065</td>
-<td align="center">1422</td>
-<td align="center">1347</td>
-<td align="center">3834</td>
-<td align="right"></td>
-</tr>
-<tr>
-<td align="left">   Iranian, Indo-European</td>
-<td align="center">0</td>
-<td align="center">0 (0.0%)</td>
-<td align="center">1 (100.0%)</td>
-<td align="center">1 (25.0%)</td>
-<td align="right"></td>
-</tr>
-<tr>
-<td align="left">   mexicana</td>
-<td align="center">0</td>
-<td align="center">1 (33.3%)</td>
-<td align="center">0 (0.0%)</td>
-<td align="center">1 (25.0%)</td>
-<td align="right"></td>
-</tr>
-<tr>
-<td align="left">   Meztizo</td>
-<td align="center">0</td>
-<td align="center">1 (33.3%)</td>
-<td align="center">0 (0.0%)</td>
-<td align="center">1 (25.0%)</td>
-<td align="right"></td>
-</tr>
-<tr>
-<td align="left">   Native American</td>
-<td align="center">0</td>
-<td align="center">1 (33.3%)</td>
-<td align="center">0 (0.0%)</td>
-<td align="center">1 (25.0%)</td>
-<td align="right"></td>
-</tr>
-<tr>
 <td align="left"><strong>Gender</strong></td>
 <td align="center"></td>
 <td align="center"></td>
@@ -2286,19 +1197,19 @@
 <td align="right">&lt; 0.001</td>
 </tr>
 <tr>
-<td align="left">   Mean (SD)</td>
-<td align="center">0.6 (0.5)</td>
-<td align="center">0.7 (0.5)</td>
-<td align="center">0.6 (0.5)</td>
-<td align="center">0.6 (0.5)</td>
+<td align="left">   male</td>
+<td align="center">393 (36.9%)</td>
+<td align="center">485 (34.0%)</td>
+<td align="center">581 (43.1%)</td>
+<td align="center">1459 (38.0%)</td>
 <td align="right"></td>
 </tr>
 <tr>
-<td align="left">   Range</td>
-<td align="center">0.0 - 1.0</td>
-<td align="center">0.0 - 1.0</td>
-<td align="center">0.0 - 1.0</td>
-<td align="center">0.0 - 1.0</td>
+<td align="left">   female</td>
+<td align="center">672 (63.1%)</td>
+<td align="center">940 (66.0%)</td>
+<td align="center">767 (56.9%)</td>
+<td align="center">2379 (62.0%)</td>
 <td align="right"></td>
 </tr>
 <tr>
@@ -2638,19 +1549,19 @@
 <td align="right"></td>
 </tr>
 <tr>
-<td align="left">   Mean (SD)</td>
-<td align="center">0.4 (0.5)</td>
-<td align="center">0.2 (0.4)</td>
-<td align="center">0.3 (0.5)</td>
-<td align="center">0.3 (0.5)</td>
+<td align="left">   Absent</td>
+<td align="center">487 (58.7%)</td>
+<td align="center">1028 (80.4%)</td>
+<td align="center">865 (70.1%)</td>
+<td align="center">2380 (71.2%)</td>
 <td align="right"></td>
 </tr>
 <tr>
-<td align="left">   Range</td>
-<td align="center">0.0 - 1.0</td>
-<td align="center">0.0 - 1.0</td>
-<td align="center">0.0 - 1.0</td>
-<td align="center">0.0 - 1.0</td>
+<td align="left">   Present</td>
+<td align="center">343 (41.3%)</td>
+<td align="center">251 (19.6%)</td>
+<td align="center">369 (29.9%)</td>
+<td align="center">963 (28.8%)</td>
 <td align="right"></td>
 </tr>
 <tr>
@@ -2782,262 +1693,6 @@
 <td align="right"></td>
 </tr>
 <tr>
-<td align="left"><strong>ICV HD</strong></td>
-<td align="center"></td>
-<td align="center"></td>
-<td align="center"></td>
-<td align="center"></td>
-<td align="right">&lt; 0.001</td>
-</tr>
-<tr>
-<td align="left">   N-Miss</td>
-<td align="center">114</td>
-<td align="center">96</td>
-<td align="center">65</td>
-<td align="center">275</td>
-<td align="right"></td>
-</tr>
-<tr>
-<td align="left">   Mean (SD)</td>
-<td align="center">1418430.9 (131274.9)</td>
-<td align="center">1380710.8 (131924.8)</td>
-<td align="center">1459949.5 (146603.9)</td>
-<td align="center">1419311.7 (141319.7)</td>
-<td align="right"></td>
-</tr>
-<tr>
-<td align="left">   Range</td>
-<td align="center">1040497.2 - 1964078.0</td>
-<td align="center">1029783.2 - 1794228.8</td>
-<td align="center">1064797.6 - 1979485.0</td>
-<td align="center">1029783.2 - 1979485.0</td>
-<td align="right"></td>
-</tr>
-<tr>
-<td align="left"><strong>WMH Volume Raw</strong></td>
-<td align="center"></td>
-<td align="center"></td>
-<td align="center"></td>
-<td align="center"></td>
-<td align="right">&lt; 0.001</td>
-</tr>
-<tr>
-<td align="left">   N-Miss</td>
-<td align="center">119</td>
-<td align="center">78</td>
-<td align="center">46</td>
-<td align="center">243</td>
-<td align="right"></td>
-</tr>
-<tr>
-<td align="left">   Mean (SD)</td>
-<td align="center">14.1 (78.7)</td>
-<td align="center">2.8 (19.2)</td>
-<td align="center">3.8 (6.8)</td>
-<td align="center">6.1 (42.5)</td>
-<td align="right"></td>
-</tr>
-<tr>
-<td align="left">   Range</td>
-<td align="center">0.0 - 1056.5</td>
-<td align="center">0.0 - 683.2</td>
-<td align="center">0.0 - 74.4</td>
-<td align="center">0.0 - 1056.5</td>
-<td align="right"></td>
-</tr>
-<tr>
-<td align="left"><strong>WMH Volume Log</strong></td>
-<td align="center"></td>
-<td align="center"></td>
-<td align="center"></td>
-<td align="center"></td>
-<td align="right">&lt; 0.001</td>
-</tr>
-<tr>
-<td align="left">   N-Miss</td>
-<td align="center">121</td>
-<td align="center">78</td>
-<td align="center">46</td>
-<td align="center">245</td>
-<td align="right"></td>
-</tr>
-<tr>
-<td align="left">   Mean (SD)</td>
-<td align="center">0.8 (1.1)</td>
-<td align="center">0.2 (0.4)</td>
-<td align="center">0.2 (0.6)</td>
-<td align="center">0.3 (0.7)</td>
-<td align="right"></td>
-</tr>
-<tr>
-<td align="left">   Range</td>
-<td align="center">0.0 - 7.0</td>
-<td align="center">0.0 - 3.5</td>
-<td align="center">0.0 - 3.8</td>
-<td align="center">0.0 - 7.0</td>
-<td align="right"></td>
-</tr>
-<tr>
-<td align="left"><strong>Animal Total Z</strong></td>
-<td align="center"></td>
-<td align="center"></td>
-<td align="center"></td>
-<td align="center"></td>
-<td align="right">&lt; 0.001</td>
-</tr>
-<tr>
-<td align="left">   N-Miss</td>
-<td align="center">0</td>
-<td align="center">0</td>
-<td align="center">2</td>
-<td align="center">2</td>
-<td align="right"></td>
-</tr>
-<tr>
-<td align="left">   Mean (SD)</td>
-<td align="center">-0.3 (1.1)</td>
-<td align="center">-0.5 (1.1)</td>
-<td align="center">0.0 (1.2)</td>
-<td align="center">-0.3 (1.1)</td>
-<td align="right"></td>
-</tr>
-<tr>
-<td align="left">   Range</td>
-<td align="center">-4.0 - 3.4</td>
-<td align="center">-4.0 - 3.0</td>
-<td align="center">-4.0 - 5.7</td>
-<td align="center">-4.0 - 5.7</td>
-<td align="right"></td>
-</tr>
-<tr>
-<td align="left"><strong>Digit Symbol Substitution Z</strong></td>
-<td align="center"></td>
-<td align="center"></td>
-<td align="center"></td>
-<td align="center"></td>
-<td align="right">&lt; 0.001</td>
-</tr>
-<tr>
-<td align="left">   N-Miss</td>
-<td align="center">11</td>
-<td align="center">15</td>
-<td align="center">9</td>
-<td align="center">35</td>
-<td align="right"></td>
-</tr>
-<tr>
-<td align="left">   Mean (SD)</td>
-<td align="center">-0.2 (1.1)</td>
-<td align="center">-0.7 (1.1)</td>
-<td align="center">0.1 (1.0)</td>
-<td align="center">-0.3 (1.1)</td>
-<td align="right"></td>
-</tr>
-<tr>
-<td align="left">   Range</td>
-<td align="center">-3.5 - 3.6</td>
-<td align="center">-3.7 - 2.4</td>
-<td align="center">-3.5 - 3.7</td>
-<td align="center">-3.7 - 3.7</td>
-<td align="right"></td>
-</tr>
-<tr>
-<td align="left"><strong>LM2 AB Total Z</strong></td>
-<td align="center"></td>
-<td align="center"></td>
-<td align="center"></td>
-<td align="center"></td>
-<td align="right">&lt; 0.001</td>
-</tr>
-<tr>
-<td align="left">   N-Miss</td>
-<td align="center">0</td>
-<td align="center">3</td>
-<td align="center">2</td>
-<td align="center">5</td>
-<td align="right"></td>
-</tr>
-<tr>
-<td align="left">   Mean (SD)</td>
-<td align="center">-0.6 (1.1)</td>
-<td align="center">-0.7 (1.1)</td>
-<td align="center">0.1 (1.2)</td>
-<td align="center">-0.4 (1.2)</td>
-<td align="right"></td>
-</tr>
-<tr>
-<td align="left">   Range</td>
-<td align="center">-3.2 - 2.3</td>
-<td align="center">-3.2 - 2.4</td>
-<td align="center">-3.2 - 2.8</td>
-<td align="center">-3.2 - 2.8</td>
-<td align="right"></td>
-</tr>
-<tr>
-<td align="left"><strong>MMSE Total Z</strong></td>
-<td align="center"></td>
-<td align="center"></td>
-<td align="center"></td>
-<td align="center"></td>
-<td align="right">&lt; 0.001</td>
-</tr>
-<tr>
-<td align="left">   N-Miss</td>
-<td align="center">7</td>
-<td align="center">8</td>
-<td align="center">7</td>
-<td align="center">22</td>
-<td align="right"></td>
-</tr>
-<tr>
-<td align="left">   Mean (SD)</td>
-<td align="center">-0.3 (1.3)</td>
-<td align="center">-1.0 (1.8)</td>
-<td align="center">0.2 (1.0)</td>
-<td align="center">-0.4 (1.5)</td>
-<td align="right"></td>
-</tr>
-<tr>
-<td align="left">   Range</td>
-<td align="center">-12.3 - 0.9</td>
-<td align="center">-11.8 - 0.9</td>
-<td align="center">-11.4 - 0.9</td>
-<td align="center">-12.3 - 0.9</td>
-<td align="right"></td>
-</tr>
-<tr>
-<td align="left"><strong>SEVLT DR Total Z</strong></td>
-<td align="center"></td>
-<td align="center"></td>
-<td align="center"></td>
-<td align="center"></td>
-<td align="right">&lt; 0.001</td>
-</tr>
-<tr>
-<td align="left">   N-Miss</td>
-<td align="center">2</td>
-<td align="center">14</td>
-<td align="center">9</td>
-<td align="center">25</td>
-<td align="right"></td>
-</tr>
-<tr>
-<td align="left">   Mean (SD)</td>
-<td align="center">-0.6 (1.2)</td>
-<td align="center">-0.6 (1.2)</td>
-<td align="center">-0.2 (1.3)</td>
-<td align="center">-0.4 (1.3)</td>
-<td align="right"></td>
-</tr>
-<tr>
-<td align="left">   Range</td>
-<td align="center">-3.0 - 2.3</td>
-<td align="center">-3.0 - 2.3</td>
-<td align="center">-3.0 - 2.3</td>
-<td align="center">-3.0 - 2.3</td>
-<td align="right"></td>
-</tr>
-<tr>
 <td align="left"><strong>HPACC</strong></td>
 <td align="center"></td>
 <td align="center"></td>
@@ -3067,110 +1722,6 @@
 <td align="center">-24.2 - 7.8</td>
 <td align="center">-19.8 - 11.9</td>
 <td align="center">-24.2 - 11.9</td>
-<td align="right"></td>
-</tr>
-<tr>
-<td align="left"><strong>HPACC NA</strong></td>
-<td align="center"></td>
-<td align="center"></td>
-<td align="center"></td>
-<td align="center"></td>
-<td align="right">0.357</td>
-</tr>
-<tr>
-<td align="left">   Mean (SD)</td>
-<td align="center">0.0 (0.1)</td>
-<td align="center">0.0 (0.2)</td>
-<td align="center">0.0 (0.2)</td>
-<td align="center">0.0 (0.2)</td>
-<td align="right"></td>
-</tr>
-<tr>
-<td align="left">   Range</td>
-<td align="center">0.0 - 2.0</td>
-<td align="center">0.0 - 4.0</td>
-<td align="center">0.0 - 2.0</td>
-<td align="center">0.0 - 4.0</td>
-<td align="right"></td>
-</tr>
-<tr>
-<td align="left"><strong>HPACC NAsum</strong></td>
-<td align="center"></td>
-<td align="center"></td>
-<td align="center"></td>
-<td align="center"></td>
-<td align="right">&lt; 0.001</td>
-</tr>
-<tr>
-<td align="left">   Mean (SD)</td>
-<td align="center">-2.0 (4.4)</td>
-<td align="center">-3.3 (4.9)</td>
-<td align="center">0.3 (4.5)</td>
-<td align="center">-1.7 (4.9)</td>
-<td align="right"></td>
-</tr>
-<tr>
-<td align="left">   Range</td>
-<td align="center">-22.5 - 11.2</td>
-<td align="center">-24.2 - 7.8</td>
-<td align="center">-21.4 - 11.9</td>
-<td align="center">-24.2 - 11.9</td>
-<td align="right"></td>
-</tr>
-<tr>
-<td align="left"><strong>HPACC Prorated</strong></td>
-<td align="center"></td>
-<td align="center"></td>
-<td align="center"></td>
-<td align="center"></td>
-<td align="right">&lt; 0.001</td>
-</tr>
-<tr>
-<td align="left">   N-Miss</td>
-<td align="center">0</td>
-<td align="center">1</td>
-<td align="center">0</td>
-<td align="center">1</td>
-<td align="right"></td>
-</tr>
-<tr>
-<td align="left">   Mean (SD)</td>
-<td align="center">-2.0 (4.5)</td>
-<td align="center">-3.4 (5.0)</td>
-<td align="center">0.2 (4.6)</td>
-<td align="center">-1.7 (5.0)</td>
-<td align="right"></td>
-</tr>
-<tr>
-<td align="left">   Range</td>
-<td align="center">-28.1 - 11.2</td>
-<td align="center">-27.5 - 7.8</td>
-<td align="center">-26.8 - 11.9</td>
-<td align="center">-28.1 - 11.9</td>
-<td align="right"></td>
-</tr>
-<tr>
-<td align="left"><strong>-HPACC NAsum</strong></td>
-<td align="center"></td>
-<td align="center"></td>
-<td align="center"></td>
-<td align="center"></td>
-<td align="right">&lt; 0.001</td>
-</tr>
-<tr>
-<td align="left">   Mean (SD)</td>
-<td align="center">2.0 (4.4)</td>
-<td align="center">3.3 (4.9)</td>
-<td align="center">-0.3 (4.5)</td>
-<td align="center">1.7 (4.9)</td>
-<td align="right"></td>
-</tr>
-<tr>
-<td align="left">   Range</td>
-<td align="center">-11.2 - 22.5</td>
-<td align="center">-7.8 - 24.2</td>
-<td align="center">-11.9 - 21.4</td>
-<td align="center">-11.9 - 24.2</td>
 <td align="right"></td>
 </tr>
 </tbody>
