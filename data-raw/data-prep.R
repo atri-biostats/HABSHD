@@ -19,9 +19,6 @@ xlsx_files <- list.files(paste("Release", data_release_version), pattern = "\\.x
 change_log <- grep("Change Log_Release", xlsx_files, value = TRUE)
 dir.create(file.path("..", "inst", "extdata"), recursive = TRUE)
 file.copy(change_log, file.path("..", "inst", "extdata"))
-cat(paste0("# HABSHD\n\n * See `system.file('extdata', '", basename(change_log),
-  "', package = 'HABSHD')` for data change log."), 
-  file = file.path('..', 'NEWS.md'))
 
 xlsx_files <- xlsx_files[!grepl("Change Log_Release", xlsx_files)]
 for (file_name in xlsx_files) {

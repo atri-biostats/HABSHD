@@ -2,12 +2,24 @@
 # Baseline characteristics tables
 
 ```{r results = 'asis', include = TRUE}
-tableby(CDX_Cog ~ . , data = HD_subjinfo %>% 
-    select(-Med_ID, -Visit_ID, -APOE4_rs429358, -APOE4_rs7412)) %>%
+tableby(CDX_Cog ~ Age + Ethnicity + ID_Hispanic + ID_Race_White + ID_Race_Black + 
+    ID_Race_IndianAlaska + ID_Race_Asian + ID_Race_NativeHawaiian + ID_Gender + 
+    Interview_Language + ID_Language_Primary + ADI_StateRank + 
+    MMSE_Total + Digit_Symbol_Substitution + SEVLT_DR_Total + LM2_AB_Total + Animal_Total + 
+    APOE4_Genotype + APOE4_Positivity + `01_AB_FBB_AB_pos` + 
+    `01_TAU_PI2620_Medial_Temporal_SUVR` + `01_L_hippocampus` + `01_R_hippocampus` + 
+     HPACC, 
+  data = HD_subjinfo) %>%
   summary(labelTranslations = HD_labels, digits = 1)
 
-tableby(Ethnicity ~ . , data = HD_subjinfo %>% 
-    select(-Med_ID, -Visit_ID, -APOE4_rs429358, -APOE4_rs7412)) %>%
+tableby(Ethnicity ~ CDX_Cog + Age + ID_Hispanic + ID_Race_White + ID_Race_Black + 
+    ID_Race_IndianAlaska + ID_Race_Asian + ID_Race_NativeHawaiian + ID_Gender + 
+    Interview_Language + ID_Language_Primary + ADI_StateRank + 
+    MMSE_Total + Digit_Symbol_Substitution + SEVLT_DR_Total + LM2_AB_Total + Animal_Total + 
+    APOE4_Genotype + APOE4_Positivity + `01_AB_FBB_AB_pos` + 
+    `01_TAU_PI2620_Medial_Temporal_SUVR` + `01_L_hippocampus` + `01_R_hippocampus` + 
+     HPACC, 
+  data = HD_subjinfo) %>%
   summary(labelTranslations = HD_labels, digits = 1)
 ```
 
