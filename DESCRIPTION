@@ -2,7 +2,7 @@ Package: HABSHD
 Type: Package
 Title: HABSHD Study Package
 Description: HABSHD is a data package containing full HABS-HD dataset.
-Version: 0.3.6.2
+Version: 0.4.6.2
 Authors@R: person("ATRI Biostatistics", email = "biostat_request@atrihub.io",
   role = c("aut", "cre"))
 URL: 
@@ -17,8 +17,12 @@ RoxygenNote: 7.3.2
 Collate:
     'data.R'
     'HABSHD-package.R'
+    'combat.R'
 Imports:
-    rmarkdown
+    rmarkdown,
+    dplyr,
+    magrittr,
+    nlme
 Suggests: 
     knitr,
     tidyverse,
@@ -26,7 +30,8 @@ Suggests:
     ggplot2,
     ggsci,
     tidyr,
-    dplyr
+    dplyr,
+    nlme
 VignetteBuilder: knitr
 Depends: 
     R (>= 3.5.0)

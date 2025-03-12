@@ -9,11 +9,9 @@
 # Compressed data files
 *.gz
 
-# A4LEARN package structure
 man/*.Rd
 data/
 NAMESPACE
-R/
 .Rbuildignore
 
 # Source Dataset

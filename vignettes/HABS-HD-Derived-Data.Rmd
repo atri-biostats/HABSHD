@@ -1,6 +1,7 @@
 ---
 title: "HABS-HD Derived Data"
 output: rmarkdown::html_vignette
+bibliography: references.bib
 vignette: >
   %\VignetteIndexEntry{HABS-HD Derived Data}
   %\VignetteEngine{knitr::rmarkdown}
@@ -9,6 +10,7 @@ vignette: >
   
 ```{r, include = FALSE}
 library(tidyverse)
+library(nlme)
 
 knitr::opts_chunk$set(
 collapse = TRUE,
@@ -115,6 +117,79 @@ if(nrow(dups) > 0){
 }else{
    message('No duplicates found.')
 }
+```
+
+# Derive `HD_Imaging_ComBat` harmonized data
+
+MRI and FBB amyloid PET data are harmonized with respect to scanner type using ComBat for longitudinal data @beer2020longitudinal.
+
+```{r mri-ComBat}
+mriVars <- HD_Imaging %>% 
+  select(`01_L_hippocampus`:`01_CorticalThickness_MetaROI`) %>%
+  colnames()
+
+tmp0 <- HD_Imaging %>%
+  filter(!is.na(`01_MRI_Scanner`)) %>%
+  mutate(
+    scale_age = scale(Age)[,1],
+    MRI_Scanner = as.factor(`01_MRI_Scanner`),
+    Ethnicity = as.factor(`Ethnicity`)
+  )
+
+HD_MRI_ComBat <- lapply(mriVars, function(x){
+  message('ComBat: ', x)
+  tmp1 <- tmp0 %>%
+    rename(Y = matches(x)) %>%
+    select(Med_ID, Visit_ID, MRI_Scanner, Y, Ethnicity, ID_Gender, scale_age) %>%
+    arrange(Med_ID, Visit_ID) %>%
+    na.omit()
+  tmp1[, x] <- ComBatLong(Y ~  MRI_Scanner + (Ethnicity + ID_Gender)*scale_age,
+    tmp1, 
+    random1 = ~ scale_age|Med_ID,
+    random2 = ~ 1|Med_ID,
+    weights = varIdent(form = ~ 1 | MRI_Scanner))
+  tmp1 %>% select(Med_ID, Visit_ID, matches(x))
+}) %>% 
+  reduce(full_join, by = c('Med_ID', 'Visit_ID'))
+```
+
+```{r AB-FBB-PET-ComBat}
+fbbVars <- HD_Imaging %>% 
+  select(`01_AB_FBB_AntPostCingulate_SUVR`:`01_AB_FBB_Global_SUVR`) %>%
+  colnames()
+
+tmp0 <- HD_Imaging %>%
+  filter(!is.na(`01_AB_FBB_Scanner`)) %>%
+  mutate(
+    scale_age = scale(Age)[,1],
+    AB_FBB_Sanner = as.factor(`01_AB_FBB_Scanner`),
+    Ethnicity = as.factor(`Ethnicity`)
+  )
+
+HD_AB_FBB_ComBat <- lapply(fbbVars, function(x){
+  message('ComBat: ', x)
+  tmp1 <- tmp0 %>%
+    rename(Y = matches(x)) %>%
+    select(Med_ID, Visit_ID, AB_FBB_Sanner, Y, Ethnicity, ID_Gender, scale_age) %>%
+    arrange(Med_ID, Visit_ID) %>%
+    na.omit()
+  tmp1[, x] <- ComBatLong(Y ~  AB_FBB_Sanner + (Ethnicity + ID_Gender)*scale_age,
+    tmp1, 
+    random1 = ~ scale_age|Med_ID,
+    random2 = ~ 1|Med_ID,
+    weights = varIdent(form = ~ 1 | AB_FBB_Sanner))
+  tmp1 %>% select(Med_ID, Visit_ID, matches(x))
+}) %>% 
+  reduce(full_join, by = c('Med_ID', 'Visit_ID'))
+```
+
+```{r HD-Imaging-ComBat}
+HD_Imaging_ComBat <- HD_Imaging %>%
+  select(Visit_ID, Med_ID, Age, Ethnicity, ID_Education, ID_Gender, 
+    `01_MRI_Scanner`, `01_AB_FBB_Scanner`) %>%
+  full_join(HD_MRI_ComBat, by = c('Med_ID', 'Visit_ID')) %>%
+  full_join(HD_AB_FBB_ComBat, by = c('Med_ID', 'Visit_ID')) %>%
+  arrange(Med_ID, Visit_ID)
 ```
 
 # Derive `HD_subjinfo`
@@ -259,3 +334,5 @@ HD_labels <- HD_labels %>%
   gsub(pattern = '02_', replacement = '') %>%
   gsub(pattern = '_', replacement = ' ')
 ```
+
+# References

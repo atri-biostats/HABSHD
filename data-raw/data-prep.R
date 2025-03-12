@@ -114,11 +114,13 @@ for (file_name in csv_files) {
 knitr::purl('../vignettes/HABS-HD-Derived-Data.Rmd',
   'HABS-HD-Derived-Data.R')
 
+load_all('../')
 source('HABS-HD-Derived-Data.R')
 
 usethis::use_data(HD_Biomarkers, overwrite = TRUE)
 usethis::use_data(HD_Clinical, overwrite = TRUE)
 usethis::use_data(HD_Genomics, overwrite = TRUE)
 usethis::use_data(HD_Imaging, overwrite = TRUE)
+usethis::use_data(HD_Imaging_ComBat, overwrite = TRUE)
 usethis::use_data(HD_subjinfo, overwrite = TRUE)
 usethis::use_data(HD_labels, overwrite = TRUE)
