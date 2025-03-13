@@ -28,6 +28,7 @@
 #' @importFrom magrittr %>%
 #' @examples
 #' library(tidyverse)
+#' library(nlme)
 #' set.seed(20250312)
 #' dd <- tibble(
 #'   id = 1:100,
@@ -55,13 +56,15 @@
 #'   geom_line(aes(group = id, color = scanner))
 #' 
 #' ggplot(dd, aes(x=Y, y=Y_combat)) +
-#'   geom_line(aes(color = scanner))
+#'   geom_point(aes(color = scanner))
 #'   
+#' # Model used for harmonization:
 #' summary(lme(Y ~ scanner + scale_age, 
 #'   data = dd, 
 #'   random = ~scale_age|id, 
 #'   weights = varIdent(form = ~ 1 | scanner)))
 #' 
+#' # After harmonization, scanner fixed effect and variance weights are reduced:
 #' summary(lme(Y_combat ~ scanner + scale_age, 
 #'   data = dd, 
 #'   random = ~scale_age|id, 
