@@ -196,7 +196,12 @@ HD_AB_FBB_ComBat <- lapply(fbbVars, function(x){
 
 ```{r HD-Imaging-ComBat}
 HD_Imaging_ComBat <- HD_Imaging %>%
-  left_join(HD_subjinfo %>% select(Med_ID, CDX_Cog), by = 'Med_ID') %>%
+  left_join(HD_Clinical %>% 
+    arrange(Med_ID, Visit_ID) %>%
+    group_by(Med_ID) %>%
+    filter(!is.na(CDX_Cog)) %>%
+    filter(!duplicated(Med_ID)) %>%
+    select(Med_ID, CDX_Cog), by = 'Med_ID') %>%
   select(Visit_ID, Med_ID, Age, Ethnicity, CDX_Cog, ID_Education, ID_Gender, 
     `01_MRI_Scanner`, `01_AB_FBB_Scanner`) %>%
   full_join(HD_MRI_ComBat, by = c('Med_ID', 'Visit_ID')) %>%
