@@ -56,7 +56,8 @@
 #'   geom_line(aes(group = id, color = scanner))
 #' 
 #' ggplot(dd, aes(x=Y, y=Y_combat)) +
-#'   geom_point(aes(color = scanner))
+#'   geom_point(aes(color = scanner)) +
+#'   geom_abline(intercept = 0, slope = 1, linetype = 'dashed')
 #'   
 #' # Model used for harmonization:
 #' summary(lme(Y ~ scanner + scale_age, 
@@ -82,12 +83,13 @@ ComBatLong <- function(fixed, data, random1, random2, weights, ...){
     fit <- lme(fixed, random = random2, weights = weights,
       data = data, ...)
   }
-  # Y_combat = (standardized residual) + (fitted value | reference scanner type)
-  standardized_residuals <- unlist(resid(fit, level = 1, type = "pearson"))
+  # Y_combat = (homogenized residual) + (fitted value | reference scanner type)
+  homogenized_residuals <- unlist(resid(fit, level = 1, type = "pearson")) *
+    sigma(fit)
   # create nd, new data, with scanner_variable set to reference value for
   # all observations
   nd <- data
   nd[,scanner_variable] <- sort(unique(nd %>% pull(scanner_variable)))[1]
   fitted_value_ref_scanner <- unlist(predict(fit, newdata = nd, level = 1))
-  standardized_residuals + fitted_value_ref_scanner
+  homogenized_residuals + fitted_value_ref_scanner
 }
