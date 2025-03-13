@@ -202,7 +202,7 @@ HD_Imaging_ComBat <- HD_Imaging %>%
     filter(!is.na(CDX_Cog)) %>%
     filter(!duplicated(Med_ID)) %>%
     select(Med_ID, CDX_Cog), by = 'Med_ID') %>%
-  select(Visit_ID, Med_ID, Age, Ethnicity, CDX_Cog, ID_Education, ID_Gender, 
+  select(Visit_ID, Med_ID, Age, Ethnicity, CDX_Cog, ID_Education, ID_Gender,
     `01_MRI_Scanner`, `01_AB_FBB_Scanner`) %>%
   full_join(HD_MRI_ComBat, by = c('Med_ID', 'Visit_ID')) %>%
   full_join(HD_AB_FBB_ComBat, by = c('Med_ID', 'Visit_ID')) %>%
@@ -235,6 +235,9 @@ HD_subjinfo_clinical <- HD_Clinical %>%
   ungroup()
 
 HD_subjinfo_imaging <- HD_Imaging_ComBat %>% 
+  left_join( HD_Imaging %>% select(Med_ID, Visit_ID, 
+    `01_AB_FBB_AB_pos`, `01_TAU_PI2620_Medial_Temporal_SUVR`),
+    by = c('Med_ID', 'Visit_ID')) %>%
   arrange(Med_ID, Visit_ID) %>%
   group_by(Med_ID) %>%
   mutate(Mean_ICV_HD = mean(`01_ICV_HD`, na.rm = TRUE)) %>%
