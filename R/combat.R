@@ -84,12 +84,12 @@ ComBatLong <- function(fixed, data, random1, random2, weights, ...){
       data = data, ...)
   }
   # Y_combat = (homogenized residual) + (fitted value | reference scanner type)
-  homogenized_residuals <- unlist(resid(fit, level = 1, type = "pearson")) *
+  homogenized_residuals <- as.numeric(resid(fit, level = 1, type = "pearson")) *
     sigma(fit)
   # create nd, new data, with scanner_variable set to reference value for
   # all observations
   nd <- data
   nd[,scanner_variable] <- sort(unique(nd %>% pull(scanner_variable)))[1]
-  fitted_value_ref_scanner <- unlist(predict(fit, newdata = nd, level = 1))
+  fitted_value_ref_scanner <- as.numeric(predict(fit, newdata = nd, level = 1))
   homogenized_residuals + fitted_value_ref_scanner
 }

@@ -125,8 +125,7 @@ MRI and FBB amyloid PET data are harmonized with respect to scanner type using C
 
 ```{r mri-ComBat}
 mriVars <- HD_Imaging %>% 
-  select(`01_L_hippocampus`:`01_CorticalThickness_MetaROI`,
-    `02_WMH_Volume_Log`, `02_WMH_Volume_Raw`, `04_Total_wmh`) %>%
+  select(`01_L_hippocampus`:`01_CorticalThickness_MetaROI`) %>%
   colnames()
 
 tmp0 <- HD_Imaging %>%
@@ -235,8 +234,9 @@ HD_subjinfo_clinical <- HD_Clinical %>%
   ungroup()
 
 HD_subjinfo_imaging <- HD_Imaging_ComBat %>% 
-  left_join( HD_Imaging %>% select(Med_ID, Visit_ID, 
-    `01_AB_FBB_AB_pos`, `01_TAU_PI2620_Medial_Temporal_SUVR`),
+  left_join(HD_Imaging %>% select(Med_ID, Visit_ID, 
+    `01_AB_FBB_AB_pos`, `01_TAU_PI2620_Medial_Temporal_SUVR`, 
+    `02_WMH_Volume_Raw`, `02_WMH_Volume_Log`),
     by = c('Med_ID', 'Visit_ID')) %>%
   arrange(Med_ID, Visit_ID) %>%
   group_by(Med_ID) %>%

@@ -50,7 +50,7 @@ To install `HABSHD`:
 * Download ``r pkgFilename`` from [https://apps.unthsc.edu/itr/research/](https://apps.unthsc.edu/itr/research/)
 * In R, run ``r paste0("install.packages(\"path/to/", pkgFilename, "\", repos = NULL, type = \"source\")")``
 
-The script to build this R package can be found in [tools](https://github.com/mcdonohue/HABSHD/tree/main/tools).
+The script to build this R package can be found in [tools](https://github.com/atri-biostats/HABSHD/tree/main/tools).
 
 The code below demonstrates how to use data in the `HABSHD` package and @R to derive some basic summaries.
 
